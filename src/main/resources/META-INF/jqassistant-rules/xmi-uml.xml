@@ -1,0 +1,167 @@
+<jqassistant-rules
+        xmlns="http://schema.jqassistant.org/rule/v1.8"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.8 https://schema.jqassistant.org/rule/jqassistant-rule-v1.8.xsd">
+
+    <group id="xmi-uml:Default">
+        <includeConcept refId="xmi-uml:*"/>
+    </group>
+
+    <concept id="xmi-uml:Package">
+        <description>Labels all UML elements of type "uml:Package" with "Package".</description>
+        <cypher><![CDATA[
+		MATCH
+		  (package:UML:Element{type:"uml:Package"})
+		SET
+		  package:Package
+		RETURN
+		  count(package) as Packages
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+    <concept id="xmi-uml:Component">
+        <description>Labels all UML elements of type "uml:Component" with "Component".</description>
+        <cypher><![CDATA[
+		MATCH
+		  (component:UML:Element{type:"uml:Component"})
+		SET
+		  component:Component
+		RETURN
+		  count(component) as Components
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+    <concept id="xmi-uml:Property">
+        <description>Labels all UML elements of type "uml:Property" with "Property".</description>
+        <cypher><![CDATA[
+		MATCH
+		  (property:UML:Element{type:"uml:Property"})
+		SET
+		  property:Property
+		RETURN
+		  count(property) as Properties
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+    <concept id="xmi-uml:Usage">
+        <description>Labels all UML elements of type "uml:Usage" with "Usage".</description>
+        <cypher><![CDATA[
+		MATCH
+		  (usage:UML:Element{type:"uml:Usage"})
+		SET
+		  usage:Usage
+		RETURN
+		  count(usage) as Usages
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+    <concept id="xmi-uml:Association">
+        <description>Labels all UML elements of type "uml:Association" with "Association".</description>
+        <cypher><![CDATA[
+		MATCH
+		  (association:UML:Element{type:"uml:Association"})
+		SET
+		  association:Association
+		RETURN
+		  count(association) as Associations
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+
+    <concept id="xmi-uml:Dependency">
+        <description>Labels all UML elements of type "uml:Dependency" with "Dependency".</description>
+        <cypher><![CDATA[
+		MATCH
+		  (dependency:UML:Element{type:"uml:Dependency"})
+		SET
+		  dependency:Dependency
+		WITH
+		  dependency
+		MATCH
+		  (dependency)-[:HAS_CLIENT]->(client:UML:Element),
+		  (dependency)-[:HAS_SUPPLIER]->(supplier:UML:Element)
+		MERGE
+		  (client)-[hasDependency:HAS_DEPENDENCY]->(supplier)
+		RETURN
+		  count(hasDependency) as Dependencies
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+    <concept id="xmi-uml:Uses">
+        <requiresConcept refId="xmi-uml:Usage"/>
+        <description>Classes.</description>
+        <cypher><![CDATA[
+		MATCH
+		  (usage:UML:Usage),
+		  (usage)-[:HAS_CLIENT]->(client:UML:Element),
+		  (usage)-[:HAS_SUPPLIER]->(supplier:UML:Element)
+		MERGE
+		  (client)-[uses:USES]->(supplier)
+		RETURN
+		  count(uses) as Uses
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+    <concept id="xmi-uml:ProvidesInterface">
+        <description>Classes.</description>
+        <cypher><![CDATA[
+		MATCH
+		  (element:UML:Element),
+		  (element)-[:HAS_CHILD]->(provided:UML:Interface:Provided)
+		MERGE
+		  (element)-[providesInterface:PROVIDES_INTERFACE]->(provided)
+		RETURN
+		  count(providesInterface) as ProvidesInterfaces
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+    <concept id="xmi-uml:RequiresInterface">
+        <description>Classes.</description>
+        <cypher><![CDATA[
+		MATCH
+		  (element:UML:Element),
+		  (element)-[:HAS_CHILD]->(required:UML:Interface:Required)
+		MERGE
+		  (element)-[requiresInterface:REQUIRES_INTERFACE]->(required)
+		RETURN
+		  count(requiresInterface) as RequiresInterfaces
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
+</jqassistant-rules>
