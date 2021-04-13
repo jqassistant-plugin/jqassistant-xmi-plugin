@@ -10,6 +10,7 @@ import com.buschmais.jqassistant.plugin.common.api.scanner.AbstractScannerPlugin
 import com.buschmais.jqassistant.plugin.common.api.scanner.filesystem.FileResource;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jqassistant.contrib.plugin.uml.api.*;
@@ -65,10 +66,13 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
             XMLParser xmlParser = new XMLParser(streamReader);
             xmlParser.process(() -> {
                 String namespaceURI = xmlParser.getName().getNamespaceURI();
-                if (xmlParser.getName().getLocalPart().equals("Documentation") && XMI_NAMESPACE_URI_PREFIXES.stream().anyMatch(p -> namespaceURI.startsWith(p))) {
+                String xmiNamespace = null;
+                if (xmlParser.getName().getLocalPart().equals("XMI") && XMI_NAMESPACE_URI_PREFIXES.stream().anyMatch(p -> namespaceURI.startsWith(p))) {
+                    xmiNamespace = namespaceURI;
+                } else if (xmlParser.getName().getLocalPart().equals("Documentation") && XMI_NAMESPACE_URI_PREFIXES.stream().anyMatch(p -> namespaceURI.startsWith(p))) {
                     xmiFileDescriptor.setDocumentation(processDocumentation(xmlParser, store));
                 } else if (xmlParser.getName().getLocalPart().equals("Model") && UML_NAMESPACE_URI_PREFIXES.stream().anyMatch(p -> namespaceURI.startsWith(p))) {
-                    xmiFileDescriptor.setModel(processModel(xmlParser, store));
+                    xmiFileDescriptor.setModel(processModel(xmiNamespace, xmlParser, store));
                 }
             });
         } catch (XMLStreamException e) {
@@ -95,14 +99,15 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
     /**
      * Process a uml:model element.
      *
-     * @param xmlParser The {@link XMLParser}.
-     * @param store     The {@link Store}.
+     * @param xmiNamespace The XMI namespace.
+     * @param xmlParser    The {@link XMLParser}.
+     * @param store        The {@link Store}.
      * @return The {@link UMLModelDescriptor}.
      * @throws XMLStreamException If the {@link XMLParser} fails.
      */
-    private UMLModelDescriptor processModel(XMLParser xmlParser, Store store) throws XMLStreamException {
+    private UMLModelDescriptor processModel(String xmiNamespace, XMLParser xmlParser, Store store) throws XMLStreamException {
         UMLModelDescriptor umlModel = store.create(UMLModelDescriptor.class);
-        UMLELementResolver umlElementResolver = new UMLELementResolver(umlModel, store);
+        UMLELementResolver umlElementResolver = new UMLELementResolver(umlModel, xmiNamespace, store);
         xmlParser.process(() -> {
             if ("packagedElement".equals(xmlParser.getName().getLocalPart())) {
                 processPackagedElement(umlModel, umlElementResolver, xmlParser);
@@ -164,7 +169,7 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
         xmlParser.getAttribute("type").ifPresent(typeId -> ownedElement.setOfType(elementResolver.resolve(typeId)));
         xmlParser.process(() -> {
             if ("type".equals(xmlParser.getName().getLocalPart())) {
-                xmlParser.getAttribute("idref").ifPresent(idref -> ownedElement.setOfType(elementResolver.resolve(idref)));
+                xmlParser.getAttribute(elementResolver.getXmiNamespace(),"idref").ifPresent(idref -> ownedElement.setOfType(elementResolver.resolve(idref)));
             }
         });
     }
@@ -181,8 +186,8 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
      * @throws XMLStreamException If parsing fails.
      */
     private <T extends UMLElementDescriptor> T createUMLElement(UMLElementDescriptor parent, UMLELementResolver elementResolver, Class<T> elementType, XMLParser xmlParser) throws XMLStreamException {
-        T umlElement = elementResolver.create(xmlParser.getMandatoryAttribute("id"), elementType, parent);
-        xmlParser.getAttribute("elementType").ifPresent(type -> umlElement.setType(type));
+        T umlElement = elementResolver.create(xmlParser.getMandatoryAttribute(elementResolver.xmiNamespace, "id"), elementType, parent);
+        xmlParser.getAttribute(elementResolver.getXmiNamespace(),"type").ifPresent(type -> umlElement.setType(type));
         xmlParser.getAttribute("name").ifPresent(name -> umlElement.setName(name));
         return umlElement;
     }
@@ -190,6 +195,7 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
     /**
      * A resolver for UML elements.
      */
+    @Getter
     @RequiredArgsConstructor
     private static class UMLELementResolver {
 
@@ -197,6 +203,8 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
          * The {@link UMLModelDescriptor} declaring all resolved {@link UMLElementDescriptor}s.
          */
         private final UMLModelDescriptor umlModelDescriptor;
+
+        private final String xmiNamespace;
 
         /**
          * The {@link Store}.
@@ -226,11 +234,11 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
         /**
          * Resolve a {@link UMLElementDescriptor}, even if it has not been created yet.
          *
-         * @param id The id of the {@link UMLElementDescriptor}.
+         * @param idRef The idRef of the {@link UMLElementDescriptor}.
          * @return The resolved {@link UMLElementDescriptor}.
          */
-        UMLElementDescriptor resolve(String id) {
-            return cache.get(id, key -> umlModelDescriptor.resolveElement(key));
+        UMLElementDescriptor resolve(String idRef) {
+            return cache.get(idRef, key -> umlModelDescriptor.resolveElement(key));
         }
 
     }

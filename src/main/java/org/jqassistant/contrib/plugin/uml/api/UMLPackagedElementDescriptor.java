@@ -34,7 +34,7 @@ public interface UMLPackagedElementDescriptor extends UMLDescriptor, UMLElementD
     /**
      * Set the supplier for this element.
      *
-     * @return The supplier.
+     * @param supplier The supplier.
      */
     void setSupplier(UMLElementDescriptor supplier);
 

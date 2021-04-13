@@ -55,6 +55,22 @@
         </verify>
     </concept>
 
+    <concept id="xmi-uml:Port">
+        <description>Labels all UML elements of type "uml:Port" with "Port".</description>
+        <cypher><![CDATA[
+		MATCH
+		  (port:UML:Element{type:"uml:Port"})
+		SET
+		  port:Port
+		RETURN
+		  count(port) as Ports
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
     <concept id="xmi-uml:Usage">
         <description>Labels all UML elements of type "uml:Usage" with "Usage".</description>
         <cypher><![CDATA[

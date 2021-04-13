@@ -59,6 +59,7 @@ public class XMLParser {
         return xmlStreamReader.getName();
     }
 
+
     /**
      * Return the value for an optional attribute identified by the given name.
      *
@@ -66,18 +67,31 @@ public class XMLParser {
      * @return An {@link Optional} with the attribute value.
      */
     public Optional<String> getAttribute(String attributeName) {
-        return Optional.ofNullable(xmlStreamReader.getAttributeValue(null, attributeName));
+        return getAttribute("", attributeName);
     }
+
+    /**
+     * Return the value for an optional attribute identified by the given name.
+     *
+     * @param namespaceUri  The namespace URI.
+     * @param attributeName The attribute name.
+     * @return An {@link Optional} with the attribute value.
+     */
+    public Optional<String> getAttribute(String namespaceUri, String attributeName) {
+        return Optional.ofNullable(xmlStreamReader.getAttributeValue(namespaceUri, attributeName));
+    }
+
 
     /**
      * Return the value for an mandatory attribute identified by the given name.
      *
+     * @param namespaceUri  The namespace URI.
      * @param attributeName The attribute name.
      * @return The attribute value.
      * @throws XMLStreamException If the attribute does not exist.
      */
-    public String getMandatoryAttribute(String attributeName) throws XMLStreamException {
-        String attributeValue = xmlStreamReader.getAttributeValue(null, attributeName);
+    public String getMandatoryAttribute(String namespaceUri, String attributeName) throws XMLStreamException {
+        String attributeValue = xmlStreamReader.getAttributeValue(namespaceUri, attributeName);
         if (attributeValue == null) {
             throw new XMLStreamException("Cannot find id attribute of UML element at " + xmlStreamReader.getLocation());
         }
