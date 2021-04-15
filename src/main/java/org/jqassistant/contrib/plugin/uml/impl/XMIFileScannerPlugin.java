@@ -8,10 +8,6 @@ import com.buschmais.jqassistant.core.store.api.Store;
 import com.buschmais.jqassistant.plugin.common.api.model.FileDescriptor;
 import com.buschmais.jqassistant.plugin.common.api.scanner.AbstractScannerPlugin;
 import com.buschmais.jqassistant.plugin.common.api.scanner.filesystem.FileResource;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jqassistant.contrib.plugin.uml.api.*;
 
@@ -35,7 +31,7 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
     /**
      * Defines the prefix for XMI namespaces.
      */
-    private static final Set<String> UML_NAMESPACE_URI_PREFIXES = Stream.of("http://www.omg.org/spec/UML/", "http://schema.omg.org/spec/UML/").collect(toSet());
+    private static final Set<String> UML_NAMESPACE_URI_PREFIXES = Stream.of("http://www.omg.org/spec/UML/", "http://schema.omg.org/spec/UML/", "http://www.eclipse.org/uml2/3.0.0/UML").collect(toSet());
 
     /**
      * Defines the prefix for UML namespaces.
@@ -169,7 +165,7 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
         xmlParser.getAttribute("type").ifPresent(typeId -> ownedElement.setOfType(elementResolver.resolve(typeId)));
         xmlParser.process(() -> {
             if ("type".equals(xmlParser.getName().getLocalPart())) {
-                xmlParser.getAttribute(elementResolver.getXmiNamespace(),"idref").ifPresent(idref -> ownedElement.setOfType(elementResolver.resolve(idref)));
+                xmlParser.getAttribute(elementResolver.getXmiNamespace(), "idref").ifPresent(idref -> ownedElement.setOfType(elementResolver.resolve(idref)));
             }
         });
     }
@@ -186,60 +182,10 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
      * @throws XMLStreamException If parsing fails.
      */
     private <T extends UMLElementDescriptor> T createUMLElement(UMLElementDescriptor parent, UMLELementResolver elementResolver, Class<T> elementType, XMLParser xmlParser) throws XMLStreamException {
-        T umlElement = elementResolver.create(xmlParser.getMandatoryAttribute(elementResolver.xmiNamespace, "id"), elementType, parent);
-        xmlParser.getAttribute(elementResolver.getXmiNamespace(),"type").ifPresent(type -> umlElement.setType(type));
+        T umlElement = elementResolver.create(xmlParser.getMandatoryAttribute(elementResolver.getXmiNamespace(), "id"), elementType, parent);
+        xmlParser.getAttribute(elementResolver.getXmiNamespace(), "type").ifPresent(type -> umlElement.setXmiType(type));
         xmlParser.getAttribute("name").ifPresent(name -> umlElement.setName(name));
         return umlElement;
     }
 
-    /**
-     * A resolver for UML elements.
-     */
-    @Getter
-    @RequiredArgsConstructor
-    private static class UMLELementResolver {
-
-        /**
-         * The {@link UMLModelDescriptor} declaring all resolved {@link UMLElementDescriptor}s.
-         */
-        private final UMLModelDescriptor umlModelDescriptor;
-
-        private final String xmiNamespace;
-
-        /**
-         * The {@link Store}.
-         */
-        private final Store store;
-
-        /**
-         * The {@link Cache}.
-         */
-        private final Cache<String, UMLElementDescriptor> cache = Caffeine.newBuilder().softValues().build();
-
-        /**
-         * Create a {@link UMLElementDescriptor}.
-         *
-         * @param id     The id of the {@link UMLElementDescriptor}.
-         * @param type   The requested type of the {@link UMLElementDescriptor}.
-         * @param parent The parent of the {@link UMLElementDescriptor}.
-         * @param <T>    The type of the {@link UMLElementDescriptor}.
-         * @return The created {@link UMLElementDescriptor}.
-         */
-        <T extends UMLElementDescriptor> T create(String id, Class<T> type, UMLElementDescriptor parent) {
-            T umlElement = store.addDescriptorType(resolve(id), type);
-            umlElement.setParent(parent);
-            return umlElement;
-        }
-
-        /**
-         * Resolve a {@link UMLElementDescriptor}, even if it has not been created yet.
-         *
-         * @param idRef The idRef of the {@link UMLElementDescriptor}.
-         * @return The resolved {@link UMLElementDescriptor}.
-         */
-        UMLElementDescriptor resolve(String idRef) {
-            return cache.get(idRef, key -> umlModelDescriptor.resolveElement(key));
-        }
-
-    }
 }

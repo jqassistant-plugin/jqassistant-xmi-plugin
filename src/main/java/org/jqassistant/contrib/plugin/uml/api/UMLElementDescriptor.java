@@ -16,33 +16,33 @@ import java.util.List;
 public interface UMLElementDescriptor extends UMLDescriptor, NamedDescriptor {
 
     /**
-     * Return the unique id of the element.
+     * Return the unique XMI id of the element.
      *
-     * @return The id.
+     * @return The XMI id.
      */
     @Indexed
-    String getId();
+    String getXmiId();
 
     /**
-     * Set the unique id of the element.
+     * Set the unique XMI id of the element.
      *
-     * @param id The id.
+     * @param xmiId The XMI id.
      */
-    void setId(String id);
+    void setXmiId(String xmiId);
 
     /**
-     * Return the type of the element, e.g. "uml:Component".
+     * Return the XMI type of the element, e.g. "uml:Component".
      *
-     * @return The type.
+     * @return The XMI type.
      */
-    String getType();
+    String getXmiType();
 
     /**
-     * Set the type of the element.
+     * Set the XMI type of the element.
      *
-     * @param type The type.
+     * @param type The XMI type.
      */
-    void setType(String type);
+    void setXmiType(String type);
 
     /**
      * Return the child elements of this element.
@@ -55,6 +55,7 @@ public interface UMLElementDescriptor extends UMLDescriptor, NamedDescriptor {
 
     /**
      * Return the parent element of this element.
+     *
      * @return The parent element.
      */
     @Incoming
@@ -63,6 +64,7 @@ public interface UMLElementDescriptor extends UMLDescriptor, NamedDescriptor {
 
     /**
      * Set the parent element.
+     *
      * @param parent The parent element.
      */
     void setParent(UMLElementDescriptor parent);

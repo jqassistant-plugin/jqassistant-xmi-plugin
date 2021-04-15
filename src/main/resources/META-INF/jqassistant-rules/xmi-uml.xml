@@ -11,7 +11,7 @@
         <description>Labels all UML elements of type "uml:Package" with "Package".</description>
         <cypher><![CDATA[
 		MATCH
-		  (package:UML:Element{type:"uml:Package"})
+		  (package:UML:Element{xmiType:"uml:Package"})
 		SET
 		  package:Package
 		RETURN
@@ -27,7 +27,7 @@
         <description>Labels all UML elements of type "uml:Component" with "Component".</description>
         <cypher><![CDATA[
 		MATCH
-		  (component:UML:Element{type:"uml:Component"})
+		  (component:UML:Element{xmiType:"uml:Component"})
 		SET
 		  component:Component
 		RETURN
@@ -43,7 +43,7 @@
         <description>Labels all UML elements of type "uml:Property" with "Property".</description>
         <cypher><![CDATA[
 		MATCH
-		  (property:UML:Element{type:"uml:Property"})
+		  (property:UML:Element{xmiType:"uml:Property"})
 		SET
 		  property:Property
 		RETURN
@@ -59,7 +59,7 @@
         <description>Labels all UML elements of type "uml:Port" with "Port".</description>
         <cypher><![CDATA[
 		MATCH
-		  (port:UML:Element{type:"uml:Port"})
+		  (port:UML:Element{xmiType:"uml:Port"})
 		SET
 		  port:Port
 		RETURN
@@ -75,7 +75,7 @@
         <description>Labels all UML elements of type "uml:Usage" with "Usage".</description>
         <cypher><![CDATA[
 		MATCH
-		  (usage:UML:Element{type:"uml:Usage"})
+		  (usage:UML:Element{xmiType:"uml:Usage"})
 		SET
 		  usage:Usage
 		RETURN
@@ -91,7 +91,7 @@
         <description>Labels all UML elements of type "uml:Association" with "Association".</description>
         <cypher><![CDATA[
 		MATCH
-		  (association:UML:Element{type:"uml:Association"})
+		  (association:UML:Element{xmiType:"uml:Association"})
 		SET
 		  association:Association
 		RETURN
@@ -108,7 +108,7 @@
         <description>Labels all UML elements of type "uml:Dependency" with "Dependency".</description>
         <cypher><![CDATA[
 		MATCH
-		  (dependency:UML:Element{type:"uml:Dependency"})
+		  (dependency:UML:Element{xmiType:"uml:Dependency"})
 		SET
 		  dependency:Dependency
 		WITH
