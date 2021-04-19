@@ -1,4 +1,4 @@
-package org.jqassistant.contrib.plugin.uml.impl;
+package org.jqassistant.contrib.plugin.uml.impl.scanner;
 
 import com.buschmais.jqassistant.core.store.api.Store;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -7,20 +7,20 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jqassistant.contrib.plugin.uml.api.UMLElementDescriptor;
 import org.jqassistant.contrib.plugin.uml.api.UMLModelDescriptor;
+import org.jqassistant.contrib.plugin.uml.api.XMIElementDescriptor;
+import org.jqassistant.contrib.plugin.uml.api.XMIFileDescriptor;
 
 /**
- * A resolver for UML elements.
+ * A caching resolver for UML elements.
  */
 @Getter
 @RequiredArgsConstructor
-class UMLELementResolver {
+class XMIElementResolver {
 
     /**
      * The {@link UMLModelDescriptor} declaring all resolved {@link UMLElementDescriptor}s.
      */
-    private final UMLModelDescriptor umlModelDescriptor;
-
-    private final String xmiNamespace;
+    private final XMIFileDescriptor xmiFileDescriptor;
 
     /**
      * The {@link Store}.
@@ -30,7 +30,7 @@ class UMLELementResolver {
     /**
      * The {@link Cache}.
      */
-    private final Cache<String, UMLElementDescriptor> cache = Caffeine.newBuilder().softValues().build();
+    private final Cache<String, XMIElementDescriptor> cache = Caffeine.newBuilder().softValues().build();
 
     /**
      * Create a {@link UMLElementDescriptor}.
@@ -53,8 +53,8 @@ class UMLELementResolver {
      * @param xmiIdRef The XMI id referencing a {@link UMLElementDescriptor}.
      * @return The resolved {@link UMLElementDescriptor}.
      */
-    UMLElementDescriptor resolve(String xmiIdRef) {
-        return cache.get(xmiIdRef, key -> umlModelDescriptor.resolveElement(key));
+    XMIElementDescriptor resolve(String xmiIdRef) {
+        return cache.get(xmiIdRef, key -> xmiFileDescriptor.resolveElement(key));
     }
 
 }

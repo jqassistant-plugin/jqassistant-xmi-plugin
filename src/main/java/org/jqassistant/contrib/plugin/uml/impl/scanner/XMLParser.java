@@ -1,4 +1,4 @@
-package org.jqassistant.contrib.plugin.uml.impl;
+package org.jqassistant.contrib.plugin.uml.impl.scanner;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -67,17 +67,18 @@ public class XMLParser {
      * @return An {@link Optional} with the attribute value.
      */
     public Optional<String> getAttribute(String attributeName) {
-        return getAttribute("", attributeName);
+        return getAttribute(null, attributeName);
     }
 
     /**
      * Return the value for an optional attribute identified by the given name.
      *
-     * @param namespaceUri  The namespace URI.
-     * @param attributeName The attribute name.
+     * @param namespacePrefix The namespace URI.
+     * @param attributeName   The attribute name.
      * @return An {@link Optional} with the attribute value.
      */
-    public Optional<String> getAttribute(String namespaceUri, String attributeName) {
+    public Optional<String> getAttribute(String namespacePrefix, String attributeName) {
+        String namespaceUri = namespacePrefix != null ? xmlStreamReader.getNamespaceURI(namespacePrefix) : "";
         return Optional.ofNullable(xmlStreamReader.getAttributeValue(namespaceUri, attributeName));
     }
 
@@ -85,13 +86,13 @@ public class XMLParser {
     /**
      * Return the value for an mandatory attribute identified by the given name.
      *
-     * @param namespaceUri  The namespace URI.
-     * @param attributeName The attribute name.
+     * @param namespacePrefix The namespace URI.
+     * @param attributeName   The attribute name.
      * @return The attribute value.
      * @throws XMLStreamException If the attribute does not exist.
      */
-    public String getMandatoryAttribute(String namespaceUri, String attributeName) throws XMLStreamException {
-        String attributeValue = xmlStreamReader.getAttributeValue(namespaceUri, attributeName);
+    public String getMandatoryAttribute(String namespacePrefix, String attributeName) throws XMLStreamException {
+        String attributeValue = xmlStreamReader.getAttributeValue(xmlStreamReader.getNamespaceURI(namespacePrefix), attributeName);
         if (attributeValue == null) {
             throw new XMLStreamException("Cannot find id attribute of UML element at " + xmlStreamReader.getLocation());
         }

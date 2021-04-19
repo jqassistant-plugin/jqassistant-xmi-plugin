@@ -7,7 +7,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
  * Describes a packaged element.
  */
 @Label("PackagedElement")
-public interface UMLPackagedElementDescriptor extends UMLDescriptor, UMLElementDescriptor {
+public interface UMLPackagedElementDescriptor extends UMLElementDescriptor {
 
     /**
      * Return the visibility, e.g. "public".
@@ -29,14 +29,14 @@ public interface UMLPackagedElementDescriptor extends UMLDescriptor, UMLElementD
      * @return The supplier.
      */
     @Relation("HAS_SUPPLIER")
-    UMLElementDescriptor getSupplier();
+    XMIElementDescriptor getSupplier();
 
     /**
      * Set the supplier for this element.
      *
      * @param supplier The supplier.
      */
-    void setSupplier(UMLElementDescriptor supplier);
+    void setSupplier(XMIElementDescriptor supplier);
 
     /**
      * Return the client of this element, e.g. for "uml:Association".
@@ -44,13 +44,13 @@ public interface UMLPackagedElementDescriptor extends UMLDescriptor, UMLElementD
      * @return The client.
      */
     @Relation("HAS_CLIENT")
-    UMLElementDescriptor getClient();
+    XMIElementDescriptor getClient();
 
     /**
      * Set the client of this element.
      *
      * @param client The client.
      */
-    void setClient(UMLElementDescriptor client);
+    void setClient(XMIElementDescriptor client);
 
 }

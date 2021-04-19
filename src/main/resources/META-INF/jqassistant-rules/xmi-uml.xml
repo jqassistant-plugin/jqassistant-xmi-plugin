@@ -71,22 +71,6 @@
         </verify>
     </concept>
 
-    <concept id="xmi:UMLUsage">
-        <description>Labels all UML elements of type "uml:Usage" with "Usage".</description>
-        <cypher><![CDATA[
-		MATCH
-		  (usage:UML:Element{xmiType:"uml:Usage"})
-		SET
-		  usage:Usage
-		RETURN
-		  count(usage) as Usages
-   		]]>
-        </cypher>
-        <verify>
-            <aggregation/>
-        </verify>
-    </concept>
-
     <concept id="xmi:UMLAssociation">
         <description>Labels all UML elements of type "uml:Association" with "Association".</description>
         <cypher><![CDATA[
@@ -103,9 +87,8 @@
         </verify>
     </concept>
 
-
     <concept id="xmi:UMLDependency">
-        <description>Labels all UML elements of type "uml:Dependency" with "Dependency".</description>
+        <description>Labels all UML elements of type "uml:Dependency" with "Dependency" and creates a relation "HAS_DEPENDENCY" between the client and supplier elements.</description>
         <cypher><![CDATA[
 		MATCH
 		  (dependency:UML:Element{xmiType:"uml:Dependency"})
@@ -117,9 +100,9 @@
 		  (dependency)-[:HAS_CLIENT]->(client:UML:Element),
 		  (dependency)-[:HAS_SUPPLIER]->(supplier:UML:Element)
 		MERGE
-		  (client)-[hasDependency:HAS_DEPENDENCY]->(supplier)
+		  (client)-[:HAS_DEPENDENCY]->(supplier)
 		RETURN
-		  count(hasDependency) as Dependencies
+		  count(dependency) as Dependencies
    		]]>
         </cypher>
         <verify>
@@ -127,18 +110,22 @@
         </verify>
     </concept>
 
-    <concept id="xmi:UMLUses">
-        <requiresConcept refId="xmi:UMLUsage"/>
-        <description>Classes.</description>
+    <concept id="xmi:UMLUsage">
+        <description>Labels all UML elements of type "uml:Usage" with "Usage" and creates a relation "USES" between the client and supplier elements.</description>
         <cypher><![CDATA[
 		MATCH
-		  (usage:UML:Usage),
+		  (usage:UML:Element{xmiType:"uml:Usage"})
+		SET
+		  usage:Usage
+		WITH
+		  usage
+		MATCH
 		  (usage)-[:HAS_CLIENT]->(client:UML:Element),
 		  (usage)-[:HAS_SUPPLIER]->(supplier:UML:Element)
 		MERGE
-		  (client)-[uses:USES]->(supplier)
+		  (client)-[:USES]->(supplier)
 		RETURN
-		  count(uses) as Uses
+		  count(usage) as Usages
    		]]>
         </cypher>
         <verify>

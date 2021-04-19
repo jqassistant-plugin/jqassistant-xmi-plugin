@@ -7,6 +7,9 @@
     <model>
         <class>org.jqassistant.contrib.plugin.uml.api.XMIFileDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.XMIDocumentationDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.uml.api.XMIAppliedStereotypeDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.uml.api.XMIStereotypeDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.uml.api.XMIAttributeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.UMLModelDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.UMLOwnedAttributeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.UMLOwnedEndDescriptor</class>
@@ -15,7 +18,7 @@
         <class>org.jqassistant.contrib.plugin.uml.api.UMLPackagedElementDescriptor</class>
     </model>
     <scanner>
-        <class>org.jqassistant.contrib.plugin.uml.impl.XMIFileScannerPlugin</class>
+        <class>org.jqassistant.contrib.plugin.uml.impl.scanner.XMIFileScannerPlugin</class>
     </scanner>
     <rules>
         <resource>xmi-uml.xml</resource>
