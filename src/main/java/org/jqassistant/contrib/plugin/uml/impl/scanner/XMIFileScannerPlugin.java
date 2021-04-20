@@ -210,10 +210,10 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
             if (attributeName.startsWith("base_")) {
                 appliedStereotype.setAppliedToElement(elementResolver.resolve(attributeValue));
             } else {
-                XMIAttributeDescriptor xmiAttribute = store.create(XMIAttributeDescriptor.class);
+                XMITaggedValueDescriptor xmiAttribute = store.create(XMITaggedValueDescriptor.class);
                 xmiAttribute.setName(attributeName);
                 xmiAttribute.setValue(attributeValue);
-                appliedStereotype.getAttributes().add(xmiAttribute);
+                appliedStereotype.getTaggedValues().add(xmiAttribute);
             }
         }
     }

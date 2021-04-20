@@ -9,7 +9,7 @@
         <class>org.jqassistant.contrib.plugin.uml.api.XMIDocumentationDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.XMIAppliedStereotypeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.XMIStereotypeDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.XMIAttributeDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.uml.api.XMITaggedValueDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.UMLModelDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.UMLOwnedAttributeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.UMLOwnedEndDescriptor</class>

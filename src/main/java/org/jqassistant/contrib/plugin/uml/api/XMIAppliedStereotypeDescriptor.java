@@ -19,6 +19,6 @@ public interface XMIAppliedStereotypeDescriptor extends XMIDescriptor {
 
     void setAppliedToElement(XMIElementDescriptor xmiElement);
 
-    @Relation("HAS_ATTRIBUTE")
-    Set<XMIAttributeDescriptor> getAttributes();
+    @Relation("HAS_TAGGED_VALUE")
+    Set<XMITaggedValueDescriptor> getTaggedValues();
 }

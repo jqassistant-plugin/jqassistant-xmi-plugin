@@ -3,8 +3,8 @@ package org.jqassistant.contrib.plugin.uml.api;
 import com.buschmais.jqassistant.plugin.common.api.model.NamedDescriptor;
 import com.buschmais.xo.neo4j.api.annotation.Label;
 
-@Label("Attribute")
-public interface XMIAttributeDescriptor extends XMIDescriptor, NamedDescriptor {
+@Label("TaggedValue")
+public interface XMITaggedValueDescriptor extends XMIDescriptor, NamedDescriptor {
 
     /**
      * Return the attribute value.
