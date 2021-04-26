@@ -12,7 +12,7 @@ import java.util.List;
  * Describes an UML element within an XMI file.
  */
 @Label("Element")
-public interface XMIElementDescriptor extends XMIDescriptor, XMITypeTemplate {
+public interface XMIElementDescriptor extends XMIDescriptor {
 
     /**
      * Return the unique XMI id of the element.
@@ -29,6 +29,20 @@ public interface XMIElementDescriptor extends XMIDescriptor, XMITypeTemplate {
      */
     void setXmiId(String xmiId);
 
+    /**
+     * Return the XMI type of the element, e.g. "uml:Component".
+     *
+     * @return The XMI type.
+     */
+    String getXmiType();
+
+    /**
+     * Set the XMI type of the element.
+     *
+     * @param type The XMI type.
+     */
+    void setXmiType(String type);
+    
     /**
      * Return the child elements of this element.
      *

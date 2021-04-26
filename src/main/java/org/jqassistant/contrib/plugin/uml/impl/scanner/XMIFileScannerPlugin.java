@@ -200,7 +200,7 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
         xmlParser.process(() -> {
             if ("appliedProfile".equals(xmlParser.getName().getLocalPart())) {
                 UMLAppliedProfileDescriptor appliedProfile = store.create(UMLAppliedProfileDescriptor.class);
-                xmlParser.getAttribute("type").ifPresent(type -> appliedProfile.setXmiType(type));
+                processUMLElementAttributes(xmlParser, appliedProfile);
                 xmlParser.getAttribute("href").ifPresent(href -> appliedProfile.setHref(href));
                 profileApplication.setAppliedProfile(appliedProfile);
             }

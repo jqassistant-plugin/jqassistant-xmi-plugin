@@ -6,7 +6,7 @@ import com.buschmais.xo.neo4j.api.annotation.Label;
  * Represents an applied UML profile.
  */
 @Label("AppliedProfile")
-public interface UMLAppliedProfileDescriptor extends UMLDescriptor, XMITypeTemplate {
+public interface UMLAppliedProfileDescriptor extends UMLElementDescriptor {
 
     /**
      * Return the HREF of the applied profile.

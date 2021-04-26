@@ -31,7 +31,7 @@ public interface XMIFileDescriptor extends XMIDescriptor, FileDescriptor {
      *
      * @return The UML model.
      */
-    @Relation("CONTAINS_MODEL")
+    @Relation("CONTAINS_UML_MODEL")
     UMLModelDescriptor getModel();
 
     /**
