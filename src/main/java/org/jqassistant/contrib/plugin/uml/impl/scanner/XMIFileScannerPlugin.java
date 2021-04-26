@@ -60,6 +60,7 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
                         xmiFileDescriptor.setDocumentation(processDocumentation(xmlParser, store));
                     } else if (name.getLocalPart().equals("Extension")) {
                         xmlParser.process(() -> {
+                            //  skip extensions
                         });
                     }
                 } else if (name.getPrefix().equals(UML_NS_PREFIX)) {
@@ -96,18 +97,22 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
     /**
      * Process a uml:model element.
      *
-     * @param xmlParser          The {@link XMLParser}.
-     * @param xmiElementResolver The {@link XMIElementResolver}.
-     * @param store              The {@link Store}.
+     * @param xmlParser       The {@link XMLParser}.
+     * @param elementResolver The {@link XMIElementResolver}.
+     * @param store           The {@link Store}.
      * @return The {@link UMLModelDescriptor}.
      * @throws XMLStreamException If the {@link XMLParser} fails.
      */
-    private UMLModelDescriptor processModel(XMLParser xmlParser, XMIElementResolver xmiElementResolver, Store store) throws XMLStreamException {
+    private UMLModelDescriptor processModel(XMLParser xmlParser, XMIElementResolver elementResolver, Store store) throws XMLStreamException {
         log.info("Starting scan of UML model (line {}).", xmlParser.getXmlStreamReader().getLocation().getLineNumber());
         UMLModelDescriptor umlModel = store.create(UMLModelDescriptor.class);
+        processUMLElementAttributes(xmlParser, umlModel);
         xmlParser.process(() -> {
-            if ("packagedElement".equals(xmlParser.getName().getLocalPart())) {
-                processPackagedElement(xmlParser, umlModel, xmiElementResolver);
+            String localPart = xmlParser.getName().getLocalPart();
+            if ("packagedElement".equals(localPart)) {
+                processPackagedElement(xmlParser, umlModel, elementResolver);
+            } else if ("profileApplication".equals(localPart)) {
+                processProfileApplication(xmlParser, umlModel, elementResolver, store);
             }
         });
         log.info("Finished scan of UML model (line {}).", xmlParser.getXmlStreamReader().getLocation().getLineNumber());
@@ -128,24 +133,15 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
         xmlParser.getAttribute("client").ifPresent(clientId -> packagedElement.setClient(elementResolver.resolve(clientId)));
         xmlParser.getAttribute("visibility").ifPresent(visibility -> packagedElement.setVisibility(visibility));
         xmlParser.process(() -> {
-            switch (xmlParser.getName().getLocalPart()) {
-                case "packagedElement":
-                    processPackagedElement(xmlParser, packagedElement, elementResolver);
-                    break;
-                case "provided":
-                    createUMLElement(xmlParser, UMLProvidedInterfaceDescriptor.class, packagedElement, elementResolver);
-                    break;
-                case "required":
-                    createUMLElement(xmlParser, UMLRequiredInterfaceDescriptor.class, packagedElement, elementResolver);
-                    break;
-                case "ownedAttribute":
-                    processOwnedElement(xmlParser, UMLOwnedAttributeDescriptor.class, packagedElement, elementResolver);
-                    break;
-                case "ownedEnd":
-                    processOwnedElement(xmlParser, UMLOwnedEndDescriptor.class, packagedElement, elementResolver);
-                    break;
-                default:
-                    break;
+            String localPart = xmlParser.getName().getLocalPart();
+            if ("packagedElement".equals(localPart)) {
+                processPackagedElement(xmlParser, packagedElement, elementResolver);
+            } else if ("ownedAttribute".equals(localPart)) {
+                processOwnedElement(xmlParser, UMLOwnedAttributeDescriptor.class, packagedElement, elementResolver);
+            } else if ("ownedEnd".equals(localPart)) {
+                processOwnedElement(xmlParser, UMLOwnedEndDescriptor.class, packagedElement, elementResolver);
+            } else {
+                processInterfaceElements(xmlParser, packagedElement, elementResolver);
             }
         });
     }
@@ -168,6 +164,45 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
         xmlParser.process(() -> {
             if ("type".equals(xmlParser.getName().getLocalPart())) {
                 xmlParser.getAttribute(XMI_NS_PREFIX, "idref").ifPresent(idref -> ownedElement.setOfType(elementResolver.resolve(idref)));
+            } else {
+                processInterfaceElements(xmlParser, ownedElement, elementResolver);
+            }
+        });
+    }
+
+    /**
+     * Process provided or required interface elements.
+     *
+     * @param xmlParser       The {@link XMLParser}.
+     * @param parent          The parent {@link UMLElementDescriptor}.
+     * @param elementResolver The {@link XMIElementResolver}.
+     * @throws XMLStreamException If the {@link XMLParser} fails.
+     */
+    private void processInterfaceElements(XMLParser xmlParser, UMLElementDescriptor parent, XMIElementResolver elementResolver) throws XMLStreamException {
+        if ("provided".equals(xmlParser.getName().getLocalPart())) {
+            createUMLElement(xmlParser, UMLProvidedInterfaceDescriptor.class, parent, elementResolver);
+        } else if ("required".equals(xmlParser.getName().getLocalPart())) {
+            createUMLElement(xmlParser, UMLRequiredInterfaceDescriptor.class, parent, elementResolver);
+        }
+    }
+
+    /**
+     * Process a profile application.
+     *
+     * @param xmlParser       The {@link XMLParser}.
+     * @param umlModel        The {@link UMLModelDescriptor}.
+     * @param elementResolver The {@link XMIElementResolver}.
+     * @param store           The {@link Store}.
+     * @throws XMLStreamException If the {@link XMLParser} fails.
+     */
+    private void processProfileApplication(XMLParser xmlParser, UMLModelDescriptor umlModel, XMIElementResolver elementResolver, Store store) throws XMLStreamException {
+        UMLProfileApplicationDescriptor profileApplication = createUMLElement(xmlParser, UMLProfileApplicationDescriptor.class, umlModel, elementResolver);
+        xmlParser.process(() -> {
+            if ("appliedProfile".equals(xmlParser.getName().getLocalPart())) {
+                UMLAppliedProfileDescriptor appliedProfile = store.create(UMLAppliedProfileDescriptor.class);
+                xmlParser.getAttribute("type").ifPresent(type -> appliedProfile.setXmiType(type));
+                xmlParser.getAttribute("href").ifPresent(href -> appliedProfile.setHref(href));
+                profileApplication.setAppliedProfile(appliedProfile);
             }
         });
     }
@@ -186,9 +221,20 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
     private <T extends UMLElementDescriptor> T createUMLElement(XMLParser xmlParser, Class<T> elementType, UMLElementDescriptor parent, XMIElementResolver elementResolver) throws XMLStreamException {
         String xmiId = xmlParser.getMandatoryAttribute(XMI_NS_PREFIX, "id");
         T umlElement = elementResolver.create(xmiId, elementType, parent);
-        xmlParser.getAttribute(XMI_NS_PREFIX, "type").ifPresent(type -> umlElement.setXmiType(type));
-        xmlParser.getAttribute("name").ifPresent(name -> umlElement.setName(name));
+        processUMLElementAttributes(xmlParser, umlElement);
         return umlElement;
+    }
+
+    /**
+     * Process core UML element attributes, i.e. "name" and "type".
+     *
+     * @param xmlParser  The The {@link XMLParser}.
+     * @param umlElement The {@link UMLElementDescriptor}.
+     * @param <T>        The {@link UMLElementDescriptor} type.
+     */
+    private <T extends UMLElementDescriptor> void processUMLElementAttributes(XMLParser xmlParser, T umlElement) {
+        xmlParser.getAttribute("name").ifPresent(name -> umlElement.setName(name));
+        xmlParser.getAttribute(XMI_NS_PREFIX, "type").ifPresent(type -> umlElement.setXmiType(type));
     }
 
     /**

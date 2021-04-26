@@ -16,6 +16,8 @@
         <class>org.jqassistant.contrib.plugin.uml.api.UMLProvidedInterfaceDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.UMLRequiredInterfaceDescriptor</class>
         <class>org.jqassistant.contrib.plugin.uml.api.UMLPackagedElementDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.uml.api.UMLProfileApplicationDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.uml.api.UMLAppliedProfileDescriptor</class>
     </model>
     <scanner>
         <class>org.jqassistant.contrib.plugin.uml.impl.scanner.XMIFileScannerPlugin</class>
