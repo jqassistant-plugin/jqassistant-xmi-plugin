@@ -91,6 +91,7 @@ Represents a XMI file.
 | Name                   | Target label(s)      | Cardinality | Description
 | CONTAINS_DOCUMENTATION | <<XMIDocumentation>> | 0..1        | References the documentation.
 | CONTAINS_UML_MODEL     | <<UMLModel>>         | 0..1        | References the contained UML model.
+| CONTAINS_STEREOTYPE    | <<XMIStereotype>>    | 0..n        | References the contained stereotypes.
 |===
 
 [[XMIDocumentation]]
@@ -111,7 +112,8 @@ Provides meta-information about the XMI file.
 ==== :XMI:Element
 
 Represents an XMI element.
-All UML elements described below, including the <<UMLModel>>, itself are <<XMIElement>>s.
+
+NOTE: All UML elements described below (including the <<UMLModel>> itself) are <<XMIElement>>s.
 
 [options=header]
 .Properties of :XMI:Element
