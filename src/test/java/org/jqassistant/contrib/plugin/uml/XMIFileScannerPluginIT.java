@@ -1,13 +1,9 @@
 package org.jqassistant.contrib.plugin.uml;
 
-import com.buschmais.jqassistant.core.scanner.api.DefaultScope;
 import com.buschmais.jqassistant.core.store.api.model.Descriptor;
-import com.buschmais.jqassistant.plugin.common.test.AbstractPluginIT;
 import org.jqassistant.contrib.plugin.uml.api.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Contains test verifying the {@link org.jqassistant.contrib.plugin.uml.impl.scanner.XMIFileScannerPlugin}.
  */
-class XMIFileScannerPluginIT extends AbstractPluginIT {
-
-    @BeforeEach
-    void scan() {
-        String fileName = "/uml-elements.xmi";
-        File xmiFile = new File(getClassesDirectory(XMIFileScannerPluginIT.class), fileName);
-        Descriptor descriptor = getScanner().scan(xmiFile, fileName, DefaultScope.NONE);
-        assertThat(descriptor).isInstanceOf(XMIFileDescriptor.class);
-    }
+class XMIFileScannerPluginIT extends AbstractUMLPluginIT {
 
     /**
      * Verifies the top-level file structure of an XMI file with an XMI root element.
@@ -75,10 +63,6 @@ class XMIFileScannerPluginIT extends AbstractPluginIT {
                 asList("Model", "Components", "Aggregations & Dependencies"),
                 asList("Model", "Components", "Ports & Interfaces"));
         store.commitTransaction();
-    }
-
-    private List<String> toNames(List<? extends UMLElementDescriptor> umlElements) {
-        return umlElements.stream().map(umlElement -> umlElement.getName()).collect(toList());
     }
 
     /**

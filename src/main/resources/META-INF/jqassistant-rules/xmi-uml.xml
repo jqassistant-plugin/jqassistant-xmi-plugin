@@ -88,7 +88,7 @@
     </concept>
 
     <concept id="xmi:UMLDependency">
-        <description>Labels all UML elements of type "uml:Dependency" with "Dependency" and creates a relation "HAS_DEPENDENCY" between the client and supplier elements.</description>
+        <description>Labels all UML elements of type "uml:Dependency" with "Dependency" and creates a "HAS_DEPENDENCY" relation between the client and supplier elements.</description>
         <cypher><![CDATA[
 		MATCH
 		  (dependency:UML:Element{xmiType:"uml:Dependency"})
@@ -111,7 +111,7 @@
     </concept>
 
     <concept id="xmi:UMLUsage">
-        <description>Labels all UML elements of type "uml:Usage" with "Usage" and creates a relation "USES" between the client and supplier elements.</description>
+        <description>Labels all UML elements of type "uml:Usage" with "Usage" and creates a "USES" relation between the client and supplier elements.</description>
         <cypher><![CDATA[
 		MATCH
 		  (usage:UML:Element{xmiType:"uml:Usage"})
@@ -134,11 +134,10 @@
     </concept>
 
     <concept id="xmi:UMLProvidesInterface">
-        <description>Classes.</description>
+        <description>Creates a relation "PROVIDES_INTERFACE" between UML elements and their provided interfaces.</description>
         <cypher><![CDATA[
 		MATCH
-		  (element:UML:Element),
-		  (element)-[:HAS_CHILD]->(provided:UML:Interface:Provided)
+		  (element:UML:Element)-[:HAS_CHILD]->(provided:UML:Interface:Provided)
 		MERGE
 		  (element)-[providesInterface:PROVIDES_INTERFACE]->(provided)
 		RETURN
@@ -151,11 +150,10 @@
     </concept>
 
     <concept id="xmi:UMLRequiresInterface">
-        <description>Classes.</description>
+        <description>Creates a relation "REQUIRES_INTERFACE" between UML elements and their required interfaces.</description>
         <cypher><![CDATA[
 		MATCH
-		  (element:UML:Element),
-		  (element)-[:HAS_CHILD]->(required:UML:Interface:Required)
+		  (element:UML:Element)-[:HAS_CHILD]->(required:UML:Interface:Required)
 		MERGE
 		  (element)-[requiresInterface:REQUIRES_INTERFACE]->(required)
 		RETURN
