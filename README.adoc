@@ -34,7 +34,7 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
                     <configuration>
                         <scanIncludes>                                                   <!--1-->
                             <scanInclude>
-                                <path>${project.basedir}/.git</path>
+                                <path>${project.basedir}/src/main/xmi</path>
                             </scanInclude>
                         </scanIncludes>
                     </configuration>
@@ -51,12 +51,12 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
     </plugins>
 </build>
 ----
-<1> Configures the Git plugin to scan the local git repository.
+<1> Configures the UML plugin to scan a folder containing XMI files.
 <2> Declares the UML plugin
 
 === Command Line Utility
 
-Download the shaded JAR file from https://search.maven.org/artifact/org.jqassistant.contrib.plugin/jqassistant-uml-plugin[Maven Central] and put it into the `/plugins` folder of the distribution.
+Download the JAR file from https://search.maven.org/artifact/org.jqassistant.contrib.plugin/jqassistant-uml-plugin[Maven Central] and put it into the `/plugins` folder of the distribution.
 
 [[feedback]]
 == Feedback

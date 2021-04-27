@@ -139,7 +139,28 @@ class XMIFileScannerPluginIT extends AbstractPluginIT {
     }
 
     @Test
-    void associations() {
+    void componentDependencies() {
+        store.beginTransaction();
+        UMLPackagedElementDescriptor dependent = getComponent("Aggregations & Dependencies", "Dependent");
+        assertThat(dependent).isNotNull();
+        UMLPackagedElementDescriptor dependency = getComponent("Aggregations & Dependencies", "Dependency");
+        assertThat(dependency).isNotNull();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("dependentComponent", dependent);
+        params.put("dependencyComponent", dependency);
+        List<UMLPackagedElementDescriptor> dependencies = query("MATCH (dependentComponent)<-[:HAS_CLIENT]-(dependency:PackagedElement{xmiType:'uml:Dependency'})-[:HAS_SUPPLIER]->(dependencyComponent) " +
+                "WHERE id(dependentComponent)=$dependentComponent and id(dependencyComponent)=$dependencyComponent " +
+                "RETURN dependency", params).getColumn("dependency");
+        assertThat(dependencies).hasSize(1);
+        store.commitTransaction();
+    }
+
+    /**
+     * Verifies {@link UMLPackagedElementDescriptor}s of type "uml:Association" for "composite" aggregations.
+     */
+    @Test
+    void componentCompositeAssociations() {
         store.beginTransaction();
         UMLPackagedElementDescriptor aggregate = getComponent("Aggregations & Dependencies", "Aggregate");
         assertThat(aggregate).isNotNull();
@@ -147,7 +168,27 @@ class XMIFileScannerPluginIT extends AbstractPluginIT {
         assertThat(dependent).isNotNull();
         UMLPackagedElementDescriptor dependency = getComponent("Aggregations & Dependencies", "Dependency");
         assertThat(dependency).isNotNull();
+        assertThat(getCompositeAssociations(aggregate, dependent)).hasSize(1);
+        assertThat(getCompositeAssociations(aggregate, dependency)).hasSize(1);
         store.commitTransaction();
+    }
+
+    /**
+     * Return the composite associations between the given {@link UMLPackagedElementDescriptor}s.
+     *
+     * @param aggregate The aggregate.
+     * @param child     The child.
+     * @return The {@link UMLPackagedElementDescriptor} representing the "uml:Association".
+     */
+    private List<UMLPackagedElementDescriptor> getCompositeAssociations(UMLPackagedElementDescriptor aggregate, UMLPackagedElementDescriptor child) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("aggregateComponent", aggregate);
+        params.put("childComponent", child);
+        return query("MATCH (association:PackagedElement{xmiType:'uml:Association'}), " +
+                "(association)<-[:FOR_ASSOCIATION]-(:OwnedAttribute)-[:OF_TYPE]->(aggregateComponent), " +
+                "(association)<-[:FOR_ASSOCIATION]-(:OwnedEnd{aggregation:'composite'})-[:OF_TYPE]->(childComponent) " +
+                "WHERE id(aggregateComponent)=$aggregateComponent and id(childComponent)=$childComponent " +
+                "RETURN association", params).getColumn("association");
     }
 
     /**
