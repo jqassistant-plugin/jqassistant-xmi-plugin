@@ -120,8 +120,8 @@ NOTE: All UML elements described below (including the <<UMLModel>> itself) are <
 |===
 | Name     | Description
 | xmiId    | (optional) The unique id of the XMI element (any character sequence, e.g. a GUID)
-| xmiType  | The type of the XMI element, i.e. `uml:Model`.
-| name     | The name of the XMI element.
+| xmiType  | The type of the XMI element, e.g. `uml:PackagedElement`.
+| name     | The name of the XMI element, e.g. `My Package`.
 |===
 
 [options=header]
