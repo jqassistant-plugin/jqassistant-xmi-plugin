@@ -179,15 +179,15 @@ class XMIFileScannerPluginIT extends AbstractUMLPluginIT {
      * Verifies stereotypes and their application to UML elements.
      */
     @Test
-    void stereoTypes() {
+    void stereotypes() {
         store.beginTransaction();
-        List<XMIStereotypeDescriptor> stereotypes = query("MATCH (:XMI:File)-[:CONTAINS_STEREOTYPE]->(stereotype:Stereotype) RETURN stereotype").getColumn("stereotype");
+        List<XMIStereotypeDescriptor> stereotypes = query("MATCH (:XMI:File)-[:CONTAINS_STEREOTYPE]->(stereotype:XMI:Stereotype) RETURN stereotype").getColumn("stereotype");
         assertThat(stereotypes).hasSize(1);
         XMIStereotypeDescriptor stereotype = stereotypes.get(0);
         assertThat(stereotype.getName()).isEqualTo("REST");
         assertThat(stereotype.getNamespacePrefix()).isEqualTo("thecustomprofile");
         assertThat(stereotype.getNamespaceUri()).isEqualTo("http://www.sparxsystems.com/profiles/thecustomprofile/1.0");
-        List<String> elements = query("MATCH (port:UML:OwnedAttribute)<-[:APPLIED_TO]-(appliedStereotype:AppliedStereotype)-[:OF_STEREOTYPE]->(stereotype:Stereotype{name:'REST'}) RETURN port.name as portName").getColumn("portName");
+        List<String> elements = query("MATCH (port:UML:OwnedAttribute)<-[:APPLIED_TO]-(appliedStereotype:XMI:AppliedStereotype)-[:OF_STEREOTYPE]->(stereotype:XMI:Stereotype{name:'REST'}) RETURN port.name as portName").getColumn("portName");
         assertThat(elements).containsExactlyInAnyOrder("Port A", "Port B");
         store.commitTransaction();
     }

@@ -6,6 +6,8 @@ import com.buschmais.xo.api.annotation.ResultOf.Parameter;
 import com.buschmais.xo.neo4j.api.annotation.Cypher;
 import com.buschmais.xo.neo4j.api.annotation.Relation;
 
+import java.util.List;
+
 /**
  * Describes a XMI file.
  */
@@ -40,6 +42,14 @@ public interface XMIFileDescriptor extends XMIDescriptor, FileDescriptor {
      * @param umlModel The UML model.
      */
     void setModel(UMLModelDescriptor umlModel);
+
+    /**
+     * Return the {@link XMIStereotypeDescriptor}s.
+     *
+     * @return The {@link XMIStereotypeDescriptor}.
+     */
+    @Relation("CONTAINS_STEREOTYPE")
+    List<XMIStereotypeDescriptor> getStereotypes();
 
     /**
      * Resolve a {@link XMIElementDescriptor} identified by an id.
