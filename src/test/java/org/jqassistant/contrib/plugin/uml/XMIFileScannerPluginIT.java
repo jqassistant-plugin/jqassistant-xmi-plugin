@@ -61,7 +61,8 @@ class XMIFileScannerPluginIT extends AbstractUMLPluginIT {
                 asList("Model"),
                 asList("Model", "Components"),
                 asList("Model", "Components", "Aggregations & Dependencies"),
-                asList("Model", "Components", "Ports & Interfaces"));
+                asList("Model", "Components", "Ports & Interfaces"),
+                asList("Model", "Components", "Information Flow"));
         store.commitTransaction();
     }
 

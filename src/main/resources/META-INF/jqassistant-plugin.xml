@@ -23,6 +23,6 @@
         <class>org.jqassistant.contrib.plugin.uml.impl.scanner.XMIFileScannerPlugin</class>
     </scanner>
     <rules>
-        <resource>xmi-uml.xml</resource>
+        <resource>uml-xmi.xml</resource>
     </rules>
 </jqassistant-plugin>

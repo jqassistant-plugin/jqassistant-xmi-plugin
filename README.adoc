@@ -66,13 +66,25 @@ Executing the command `jqassistant.sh scan -f src/xmi/` (Linux) or `jqassistant.
 
 == Usage Example
 
-This section describes how a UML model can be used to...
+This section describes how a UML contained in a XMI file model can be used to:
 
-* define the building blocks of a system using UML components and their allowed dependencies
-* map the UML structures to a code base
-* verify the current code structure to conform the UML model
+* define the building blocks of an application using UML components and allowed dependencies,
+* map these UML structures to a code base,
+* and verify the current code structure to adhere to the UML model.
 
 For the purpose of this example the https://github.com/spring-projects/spring-petclinic[Spring PetClinic Sample Application] is used.
+
+The building blocks and their allowed dependencies are modeled as component diagram (in this case using https://sparxsystems.com/products/ea/[Sparx Systems Enterprise Architect]):
+
+image::src/main/documentation/assets/EA_Model.png[]
+
+This model can be exported as XMI file in EA using the following steps:
+
+1. Select the package to export (e.g. the `Model` node of the project): image:src/main/documentation/assets/EA_Project.png[]
+2. In the ribbon `Publish` click `Publish As...` image:src/main/documentation/assets/EA_Publish.png[]
+3. Choose the desired target folder and file name within your project (e.g. `src/main/xmi/petclinic.xmi`), select `UML 2.x` as XML type and click `Export`: image:src/main/documentation/assets/EA_Export.png[]
+
+TIP: The exported XMI file should now be added to the version control system of the project.
 
 == Reference Documentation
 
