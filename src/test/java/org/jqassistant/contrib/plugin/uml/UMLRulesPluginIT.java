@@ -30,9 +30,9 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
         assertThat(rows).hasSize(1);
-        assertThat(rows.get(0).get("Packages")).isEqualTo(4L);
+        assertThat(rows.get(0).get("Packages")).isEqualTo(5L);
         List<UMLPackagedElementDescriptor> packages = query("MATCH (package:UML:Package:PackagedElement) RETURN package").getColumn("package");
-        assertThat(toNames(packages)).containsExactlyInAnyOrder("Model", "Components", "Aggregations & Dependencies", "Ports & Interfaces");
+        assertThat(toNames(packages)).containsExactlyInAnyOrder("Model", "Components", "Aggregations & Dependencies", "Ports & Interfaces", "Information Flow");
         store.commitTransaction();
     }
 
@@ -48,9 +48,9 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
         assertThat(rows).hasSize(1);
-        assertThat(rows.get(0).get("Components")).isEqualTo(5L);
+        assertThat(rows.get(0).get("Components")).isEqualTo(7L);
         List<UMLPackagedElementDescriptor> components = query("MATCH (component:UML:Component:PackagedElement) RETURN component").getColumn("component");
-        assertThat(toNames(components)).containsExactlyInAnyOrder("Component A", "Component B", "Aggregate", "Dependent", "Dependency");
+        assertThat(toNames(components)).containsExactlyInAnyOrder("Component A", "Component B", "Aggregate", "Dependent", "Dependency", "Information Source", "Information Target");
         store.commitTransaction();
     }
 
@@ -123,7 +123,7 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
         List<Map<String, Object>> rows = result.getRows();
         assertThat(rows).hasSize(1);
         assertThat(rows.get(0).get("Dependencies")).isEqualTo(1L);
-        assertThat(query("MATCH (dependency:UML:Dependency:PackagedElement) RETURN dependency").<UMLOwnedAttributeDescriptor>getColumn("dependency")).hasSize(1);
+        assertThat(query("MATCH (dependency:UML:Dependency:PackagedElement) RETURN dependency").getColumn("dependency")).hasSize(1);
         List<Map<String, Object>> dependencies = query("MATCH (dependent:UML:PackagedElement)-[:HAS_DEPENDENCY]->(dependency:UML:PackagedElement) RETURN dependent.name as dependentName, dependency.name as dependencyName").getRows();
         assertThat(dependencies).hasSize(1);
         assertThat(dependencies.get(0).get("dependentName")).isEqualTo("Dependent");
@@ -144,11 +144,28 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
         List<Map<String, Object>> rows = result.getRows();
         assertThat(rows).hasSize(1);
         assertThat(rows.get(0).get("Usages")).isEqualTo(1L);
-        assertThat(query("MATCH (usage:UML:Usage:PackagedElement) RETURN usage").<UMLOwnedAttributeDescriptor>getColumn("usage")).hasSize(1);
+        assertThat(query("MATCH (usage:UML:Usage:PackagedElement) RETURN usage").getColumn("usage")).hasSize(1);
         List<Map<String, Object>> uses = query("MATCH (required:UML:Interface:Required)-[:USES]->(provided:UML:Interface:Provided) RETURN required.name as requiredName, provided.name as providedName").getRows();
         assertThat(uses).hasSize(1);
         assertThat(uses.get(0).get("requiredName")).isEqualTo("Required B");
         assertThat(uses.get(0).get("providedName")).isEqualTo("Provided B");
+        store.commitTransaction();
+    }
+
+    /**
+     * Verifies the concept "xmi:InformationFlow".
+     *
+     * @throws RuleException If the concept cannot be applied.
+     */
+    @Test
+    void umlInformationFlow() throws RuleException {
+        Result<Concept> result = applyConcept("xmi:InformationFlow");
+        store.beginTransaction();
+        assertThat(result.getStatus()).isEqualTo(SUCCESS);
+        List<Map<String, Object>> rows = result.getRows();
+        assertThat(rows).hasSize(1);
+        assertThat(rows.get(0).get("InformationFlows")).isEqualTo(1L);
+        assertThat(query("MATCH (informationFlow:UML:InformationFlow:PackagedElement) RETURN informationFlow").getColumn("informationFlow")).hasSize(1);
         store.commitTransaction();
     }
 

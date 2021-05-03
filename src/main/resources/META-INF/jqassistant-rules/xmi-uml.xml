@@ -133,6 +133,22 @@
         </verify>
     </concept>
 
+    <concept id="xmi:InformationFlow">
+        <description>Labels all UML elements of type "uml:InformationFlow" with "InformationFlow".</description>
+        <cypher><![CDATA[
+		MATCH
+		  (informationFlow:UML:Element{xmiType:"uml:InformationFlow"})
+		SET
+		  informationFlow:InformationFlow
+		RETURN
+		  count(informationFlow) as InformationFlows
+   		]]>
+        </cypher>
+        <verify>
+            <aggregation/>
+        </verify>
+    </concept>
+
     <concept id="xmi:UMLProvidesInterface">
         <description>Creates a relation "PROVIDES_INTERFACE" between UML elements and their provided interfaces.</description>
         <cypher><![CDATA[
