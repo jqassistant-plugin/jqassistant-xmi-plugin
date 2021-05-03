@@ -141,6 +141,26 @@ class XMIFileScannerPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
+     * Verifies information flow relations between packaged elements.
+     */
+    @Test
+    void informationFlow() {
+        store.beginTransaction();
+        UMLPackagedElementDescriptor informationSupplier = getComponent("Information Flow", "Information Source");
+        UMLPackagedElementDescriptor informationConsumer = getComponent("Information Flow", "Information Target");
+        Map<String, Object> params = new HashMap<>();
+        params.put("informationSource", informationSupplier);
+        params.put("informationTarget", informationConsumer);
+
+        List<UMLPackagedElementDescriptor> informationFlow = query("MATCH (informationSource)<-[:HAS_INFORMATION_SOURCE]-(informationFlow:PackagedElement{xmiType:'uml:InformationFlow'})-[:HAS_INFORMATION_TARGET]->(informationTarget) " +
+                "WHERE id(informationSource)=$informationSource and id(informationTarget)=$informationTarget " +
+                "RETURN informationFlow", params).getColumn("informationFlow");
+
+        assertThat(informationFlow).hasSize(1);
+        store.commitTransaction();
+    }
+
+    /**
      * Verifies {@link UMLPackagedElementDescriptor}s of type "uml:Association" for "composite" aggregations.
      */
     @Test

@@ -131,6 +131,8 @@ public class XMIFileScannerPlugin extends AbstractScannerPlugin<FileResource, XM
         UMLPackagedElementDescriptor packagedElement = createUMLElement(xmlParser, UMLPackagedElementDescriptor.class, parent, elementResolver);
         xmlParser.getAttribute("supplier").ifPresent(supplierId -> packagedElement.setSupplier(elementResolver.resolve(supplierId)));
         xmlParser.getAttribute("client").ifPresent(clientId -> packagedElement.setClient(elementResolver.resolve(clientId)));
+        xmlParser.getAttribute("informationSource").ifPresent(supplierId -> packagedElement.setInformationSource(elementResolver.resolve(supplierId)));
+        xmlParser.getAttribute("informationTarget").ifPresent(clientId -> packagedElement.setInformationTarget(elementResolver.resolve(clientId)));
         xmlParser.getAttribute("visibility").ifPresent(visibility -> packagedElement.setVisibility(visibility));
         xmlParser.process(() -> {
             String localPart = xmlParser.getName().getLocalPart();

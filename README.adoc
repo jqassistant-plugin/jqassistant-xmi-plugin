@@ -48,7 +48,7 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
                 <dependency>                                                             <!--2-->
                     <groupId>org.jqassistant.contrib.plugin</groupId>
                     <artifactId>jqassistant-uml-plugin</artifactId>
-                    <version>1.9.0-SNAPSHOT</version>
+                    <version>1.9.0-M1</version>
                 </dependency>
             </dependencies>
         </plugin>
@@ -65,6 +65,14 @@ Download the JAR file from https://search.maven.org/artifact/org.jqassistant.con
 Executing the command `jqassistant.sh scan -f src/xmi/` (Linux) or `jqassistant.cmd scan -f src/xmi/` will scan any file with the extension ´.xmi´ located in the given folder.
 
 == Usage Example
+
+This section describes how a UML model can be used to...
+
+* define the building blocks of a system using UML components and their allowed dependencies
+* map the UML structures to a code base
+* verify the current code structure to conform the UML model
+
+For the purpose of this example the https://github.com/spring-projects/spring-petclinic[Spring PetClinic Sample Application] is used.
 
 == Reference Documentation
 
@@ -153,9 +161,11 @@ Children of a <<UMLPackagedElement>> may be <<UMLOwnedAttribute>>, <<UMLOwnedEnd
 [options=header]
 .Relations of :UML:PackagedElement
 |===
-| Name         | Target label(s) | Cardinality | Description
-| HAS_CLIENT   | <<XMIElement>>  | 0..1        | References the client of this element if its type is a relation (e.g. `uml:Dependency`).
-| HAS_SUPPLIER | <<XMIElement>>  | 0..1        | References the supplier for this element if its type is a relation (e.g. `uml:Dependency`)
+| Name                   | Target label(s) | Cardinality | Description
+| HAS_CLIENT             | <<XMIElement>>  | 0..1        | References the client of this element if its type is a relation (e.g. `uml:Dependency`).
+| HAS_SUPPLIER           | <<XMIElement>>  | 0..1        | References the supplier for this element if its type is a relation (e.g. `uml:Dependency`)
+| HAS_INFORMATION_SOURCE | <<XMIElement>>  | 0..1        | References the information source of this element if its type is an information flow (i.e. `uml:InformationFlow`).
+| HAS_INFORMATION_TARGET | <<XMIElement>>  | 0..1        | References the information target for this element if its type is an information flow (e.g. `uml:InformationFlow`)
 |===
 
 [[UMLOwnedAttribute]]

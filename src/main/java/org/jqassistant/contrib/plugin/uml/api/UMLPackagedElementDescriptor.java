@@ -53,4 +53,33 @@ public interface UMLPackagedElementDescriptor extends UMLElementDescriptor {
      */
     void setClient(XMIElementDescriptor client);
 
+    /**
+     * Return the information source of this element, i.e. for "uml:InformationFlow".
+     *
+     * @return The information source.
+     */
+    @Relation("HAS_INFORMATION_SOURCE")
+    XMIElementDescriptor getInformationSource();
+
+    /**
+     * Set the information source of this element.
+     *
+     * @param informationSource The information source.
+     */
+    void setInformationSource(XMIElementDescriptor informationSource);
+
+    /**
+     * Return the information target of this element, i.e. for "uml:InformationFlow".
+     *
+     * @return The information target.
+     */
+    @Relation("HAS_INFORMATION_TARGET")
+    XMIElementDescriptor getInformationTarget();
+
+    /**
+     * Set the information target of this element.
+     *
+     * @param informationTarget The information target.
+     */
+    void setInformationTarget(XMIElementDescriptor informationTarget);
 }
