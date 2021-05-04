@@ -8,12 +8,12 @@
     </parent>
 
     <groupId>org.jqassistant.contrib.plugin</groupId>
-    <artifactId>jqassistant-uml-plugin</artifactId>
+    <artifactId>jqassistant-xmi-plugin</artifactId>
     <version>1.9.0-SNAPSHOT</version>
 
     <name>jQAssistant UML Plugin</name>
     <description>The jQAssistant plugin for importing UML diagrams, it provides a scanner for reading XMI files and rules for extracting models. The latter can be used to verify architectural concepts in a project.</description>
-    <url>https://github.com/jqassistant-contrib/jqassistant-uml-plugin</url>
+    <url>https://github.com/jqassistant-contrib/jqassistant-xmi-plugin</url>
 
     <licenses>
         <license>
@@ -31,10 +31,10 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:jqassistant-contrib/jqassistant-uml-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:jqassistant-contrib/jqassistant-uml-plugin.git
+        <connection>scm:git:git@github.com:jqassistant-contrib/jqassistant-xmi-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:jqassistant-contrib/jqassistant-xmi-plugin.git
         </developerConnection>
-        <url>https://github.com/jqassistant-contrib/jqassistant-uml-plugin</url>
+        <url>https://github.com/jqassistant-contrib/jqassistant-xmi-plugin</url>
         <tag>HEAD</tag>
     </scm>
 

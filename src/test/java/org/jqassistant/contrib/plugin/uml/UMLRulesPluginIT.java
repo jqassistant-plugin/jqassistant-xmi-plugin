@@ -19,13 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UMLRulesPluginIT extends AbstractUMLPluginIT {
 
     /**
-     * Verifies the concept "uml-xmi:UMLPackage".
+     * Verifies the concept "xmi:UMLPackage".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlPackage() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLPackage");
+        Result<Concept> result = applyConcept("xmi:UMLPackage");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -37,13 +37,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:UMLComponent".
+     * Verifies the concept "xmi:UMLComponent".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlComponent() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLComponent");
+        Result<Concept> result = applyConcept("xmi:UMLComponent");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -55,13 +55,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:UMLProperty".
+     * Verifies the concept "xmi:UMLProperty".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlProperty() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLProperty");
+        Result<Concept> result = applyConcept("xmi:UMLProperty");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -75,13 +75,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:UMLPort".
+     * Verifies the concept "xmi:UMLPort".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlPort() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLPort");
+        Result<Concept> result = applyConcept("xmi:UMLPort");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -93,13 +93,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:UMLAssociation".
+     * Verifies the concept "xmi:UMLAssociation".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlAssociation() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLAssociation");
+        Result<Concept> result = applyConcept("xmi:UMLAssociation");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -111,13 +111,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:UMLDependency".
+     * Verifies the concept "xmi:UMLDependency".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlDependency() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLDependency");
+        Result<Concept> result = applyConcept("xmi:UMLDependency");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -132,13 +132,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:UMLUsage".
+     * Verifies the concept "xmi:UMLUsage".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlUsage() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLUsage");
+        Result<Concept> result = applyConcept("xmi:UMLUsage");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -153,13 +153,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:InformationFlow".
+     * Verifies the concept "xmi:InformationFlow".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlInformationFlow() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLInformationFlow");
+        Result<Concept> result = applyConcept("xmi:UMLInformationFlow");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -170,13 +170,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:UMLProvidesInterface".
+     * Verifies the concept "xmi:UMLProvidesInterface".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlProvidesInterface() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLProvidesInterface");
+        Result<Concept> result = applyConcept("xmi:UMLProvidesInterface");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -194,13 +194,13 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the concept "uml-xmi:UMLRequiresInterface".
+     * Verifies the concept "xmi:UMLRequiresInterface".
      *
      * @throws RuleException If the concept cannot be applied.
      */
     @Test
     void umlRequiresInterface() throws RuleException {
-        Result<Concept> result = applyConcept("uml-xmi:UMLRequiresInterface");
+        Result<Concept> result = applyConcept("xmi:UMLRequiresInterface");
         store.beginTransaction();
         assertThat(result.getStatus()).isEqualTo(SUCCESS);
         List<Map<String, Object>> rows = result.getRows();
@@ -218,24 +218,24 @@ class UMLRulesPluginIT extends AbstractUMLPluginIT {
     }
 
     /**
-     * Verifies the group "uml-xmi:UMLDefault".
+     * Verifies the group "xmi:UMLDefault".
      *
      * @throws RuleException If the group cannot be executed.
      */
     @Test
     void uml() throws RuleException {
-        executeGroup("uml-xmi:UML");
+        executeGroup("xmi:UML");
         List<String> conceptIds = query("MATCH (concept:Concept) RETURN concept.id as id").getColumn("id");
         assertThat(conceptIds).containsExactlyInAnyOrder(
-                "uml-xmi:UMLPackage",
-                "uml-xmi:UMLComponent",
-                "uml-xmi:UMLProperty",
-                "uml-xmi:UMLPort",
-                "uml-xmi:UMLAssociation",
-                "uml-xmi:UMLDependency",
-                "uml-xmi:UMLUsage",
-                "uml-xmi:UMLInformationFlow",
-                "uml-xmi:UMLProvidesInterface",
-                "uml-xmi:UMLRequiresInterface");
+                "xmi:UMLPackage",
+                "xmi:UMLComponent",
+                "xmi:UMLProperty",
+                "xmi:UMLPort",
+                "xmi:UMLAssociation",
+                "xmi:UMLDependency",
+                "xmi:UMLUsage",
+                "xmi:UMLInformationFlow",
+                "xmi:UMLProvidesInterface",
+                "xmi:UMLRequiresInterface");
     }
 }

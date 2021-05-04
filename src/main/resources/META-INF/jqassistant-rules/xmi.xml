@@ -3,11 +3,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.8 https://schema.jqassistant.org/rule/jqassistant-rule-v1.8.xsd">
 
-    <group id="uml-xmi:UML">
-        <includeConcept refId="uml-xmi:UML*"/>
+    <group id="xmi:UML">
+        <includeConcept refId="xmi:UML*"/>
     </group>
 
-    <concept id="uml-xmi:UMLPackage">
+    <concept id="xmi:UMLPackage">
         <description>Labels all UML elements of type "uml:Package" with "Package".</description>
         <cypher><![CDATA[
 		MATCH
@@ -23,7 +23,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLComponent">
+    <concept id="xmi:UMLComponent">
         <description>Labels all UML elements of type "uml:Component" with "Component".</description>
         <cypher><![CDATA[
 		MATCH
@@ -39,7 +39,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLProperty">
+    <concept id="xmi:UMLProperty">
         <description>Labels all UML elements of type "uml:Property" with "Property".</description>
         <cypher><![CDATA[
 		MATCH
@@ -55,7 +55,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLPort">
+    <concept id="xmi:UMLPort">
         <description>Labels all UML elements of type "uml:Port" with "Port".</description>
         <cypher><![CDATA[
 		MATCH
@@ -71,7 +71,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLAssociation">
+    <concept id="xmi:UMLAssociation">
         <description>Labels all UML elements of type "uml:Association" with "Association".</description>
         <cypher><![CDATA[
 		MATCH
@@ -87,7 +87,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLDependency">
+    <concept id="xmi:UMLDependency">
         <description>Labels all UML elements of type "uml:Dependency" with "Dependency" and creates a "HAS_DEPENDENCY" relation between the client and supplier elements.</description>
         <cypher><![CDATA[
 		MATCH
@@ -110,7 +110,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLUsage">
+    <concept id="xmi:UMLUsage">
         <description>Labels all UML elements of type "uml:Usage" with "Usage" and creates a "USES" relation between the client and supplier elements.</description>
         <cypher><![CDATA[
 		MATCH
@@ -133,7 +133,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLInformationFlow">
+    <concept id="xmi:UMLInformationFlow">
         <description>Labels all UML elements of type "uml:InformationFlow" with "InformationFlow".</description>
         <cypher><![CDATA[
 		MATCH
@@ -149,7 +149,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLProvidesInterface">
+    <concept id="xmi:UMLProvidesInterface">
         <description>Creates a relation "PROVIDES_INTERFACE" between UML elements and their provided interfaces.</description>
         <cypher><![CDATA[
 		MATCH
@@ -165,7 +165,7 @@
         </verify>
     </concept>
 
-    <concept id="uml-xmi:UMLRequiresInterface">
+    <concept id="xmi:UMLRequiresInterface">
         <description>Creates a relation "REQUIRES_INTERFACE" between UML elements and their required interfaces.</description>
         <cypher><![CDATA[
 		MATCH

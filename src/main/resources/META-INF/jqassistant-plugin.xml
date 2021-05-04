@@ -1,8 +1,8 @@
 <jqassistant-plugin xmlns="http://schema.jqassistant.org/plugin/v1.8" name="XMI"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://schema.jqassistant.org/plugin/v1.8 https://schema.jqassistant.org/plugin/jqassistant-plugin-v1.8.xsd">
-    <description>The jQAssistant plugin for importing UML diagrams. It provides a scanner for reading XMI files and
-        rules for extracting models. The latter can be used to verify architectural concepts in a project.
+    <description>The jQAssistant plugin for importing XMI models. It provides a scanner for reading XMI files and
+        rules for extracting UML models which can be used to verify architectural concepts and constraints in a project.
     </description>
     <model>
         <class>org.jqassistant.contrib.plugin.uml.api.XMIFileDescriptor</class>
@@ -23,6 +23,6 @@
         <class>org.jqassistant.contrib.plugin.uml.impl.scanner.XMIFileScannerPlugin</class>
     </scanner>
     <rules>
-        <resource>uml-xmi.xml</resource>
+        <resource>xmi.xml</resource>
     </rules>
 </jqassistant-plugin>
