@@ -1,10 +1,10 @@
-package org.jqassistant.contrib.plugin.uml.impl.scanner;
+package org.jqassistant.contrib.plugin.xmi.impl.scanner;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.RequiredArgsConstructor;
-import org.jqassistant.contrib.plugin.uml.api.XMIFileDescriptor;
-import org.jqassistant.contrib.plugin.uml.api.XMIStereotypeDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.XMIFileDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.XMIStereotypeDescriptor;
 
 import javax.xml.namespace.QName;
 

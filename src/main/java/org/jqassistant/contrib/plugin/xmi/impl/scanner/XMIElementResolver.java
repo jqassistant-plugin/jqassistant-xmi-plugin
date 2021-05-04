@@ -1,14 +1,14 @@
-package org.jqassistant.contrib.plugin.uml.impl.scanner;
+package org.jqassistant.contrib.plugin.xmi.impl.scanner;
 
 import com.buschmais.jqassistant.core.store.api.Store;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.jqassistant.contrib.plugin.uml.api.UMLElementDescriptor;
-import org.jqassistant.contrib.plugin.uml.api.UMLModelDescriptor;
-import org.jqassistant.contrib.plugin.uml.api.XMIElementDescriptor;
-import org.jqassistant.contrib.plugin.uml.api.XMIFileDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.UMLElementDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.UMLModelDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.XMIElementDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.XMIFileDescriptor;
 
 /**
  * A caching resolver for UML elements.

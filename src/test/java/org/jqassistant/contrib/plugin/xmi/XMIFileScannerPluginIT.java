@@ -1,7 +1,7 @@
-package org.jqassistant.contrib.plugin.uml;
+package org.jqassistant.contrib.plugin.xmi;
 
 import com.buschmais.jqassistant.core.store.api.model.Descriptor;
-import org.jqassistant.contrib.plugin.uml.api.*;
+import org.jqassistant.contrib.plugin.xmi.api.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Contains test verifying the {@link org.jqassistant.contrib.plugin.uml.impl.scanner.XMIFileScannerPlugin}.
+ * Contains test verifying the {@link org.jqassistant.contrib.plugin.xmi.impl.scanner.XMIFileScannerPlugin}.
  */
 class XMIFileScannerPluginIT extends AbstractUMLPluginIT {
 

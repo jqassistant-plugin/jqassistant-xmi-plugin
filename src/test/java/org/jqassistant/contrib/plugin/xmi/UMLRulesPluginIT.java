@@ -1,10 +1,10 @@
-package org.jqassistant.contrib.plugin.uml;
+package org.jqassistant.contrib.plugin.xmi;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
 import com.buschmais.jqassistant.core.rule.api.model.Concept;
 import com.buschmais.jqassistant.core.rule.api.model.RuleException;
-import org.jqassistant.contrib.plugin.uml.api.UMLOwnedAttributeDescriptor;
-import org.jqassistant.contrib.plugin.uml.api.UMLPackagedElementDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.UMLOwnedAttributeDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.UMLPackagedElementDescriptor;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

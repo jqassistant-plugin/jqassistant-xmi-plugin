@@ -1,4 +1,4 @@
-package org.jqassistant.contrib.plugin.uml.api;
+package org.jqassistant.contrib.plugin.xmi.api;
 
 import com.buschmais.jqassistant.plugin.common.api.model.NamedDescriptor;
 

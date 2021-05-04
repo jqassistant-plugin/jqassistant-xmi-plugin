@@ -1,9 +1,9 @@
-package org.jqassistant.contrib.plugin.uml;
+package org.jqassistant.contrib.plugin.xmi;
 
 import com.buschmais.jqassistant.core.store.api.model.Descriptor;
 import com.buschmais.jqassistant.plugin.common.test.AbstractPluginIT;
-import org.jqassistant.contrib.plugin.uml.api.UMLElementDescriptor;
-import org.jqassistant.contrib.plugin.uml.api.XMIFileDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.UMLElementDescriptor;
+import org.jqassistant.contrib.plugin.xmi.api.XMIFileDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.File;

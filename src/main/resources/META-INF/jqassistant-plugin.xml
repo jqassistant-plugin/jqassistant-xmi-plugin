@@ -5,22 +5,22 @@
         rules for extracting UML models which can be used to verify architectural concepts and constraints in a project.
     </description>
     <model>
-        <class>org.jqassistant.contrib.plugin.uml.api.XMIFileDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.XMIDocumentationDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.XMIAppliedStereotypeDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.XMIStereotypeDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.XMITaggedValueDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.UMLModelDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.UMLOwnedAttributeDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.UMLOwnedEndDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.UMLProvidedInterfaceDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.UMLRequiredInterfaceDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.UMLPackagedElementDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.UMLProfileApplicationDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.uml.api.UMLAppliedProfileDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.XMIFileDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.XMIDocumentationDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.XMIAppliedStereotypeDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.XMIStereotypeDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.XMITaggedValueDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.UMLModelDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.UMLOwnedAttributeDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.UMLOwnedEndDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.UMLProvidedInterfaceDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.UMLRequiredInterfaceDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.UMLPackagedElementDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.UMLProfileApplicationDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.xmi.api.UMLAppliedProfileDescriptor</class>
     </model>
     <scanner>
-        <class>org.jqassistant.contrib.plugin.uml.impl.scanner.XMIFileScannerPlugin</class>
+        <class>org.jqassistant.contrib.plugin.xmi.impl.scanner.XMIFileScannerPlugin</class>
     </scanner>
     <rules>
         <resource>xmi.xml</resource>

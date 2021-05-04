@@ -1,4 +1,4 @@
-package org.jqassistant.contrib.plugin.uml.impl.scanner;
+package org.jqassistant.contrib.plugin.xmi.impl.scanner;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

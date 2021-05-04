@@ -1,4 +1,4 @@
-package org.jqassistant.contrib.plugin.uml.impl.scanner;
+package org.jqassistant.contrib.plugin.xmi.impl.scanner;
 
 import com.buschmais.jqassistant.core.scanner.api.Scanner;
 import com.buschmais.jqassistant.core.scanner.api.ScannerContext;
@@ -9,7 +9,7 @@ import com.buschmais.jqassistant.plugin.common.api.model.FileDescriptor;
 import com.buschmais.jqassistant.plugin.common.api.scanner.AbstractScannerPlugin;
 import com.buschmais.jqassistant.plugin.common.api.scanner.filesystem.FileResource;
 import lombok.extern.slf4j.Slf4j;
-import org.jqassistant.contrib.plugin.uml.api.*;
+import org.jqassistant.contrib.plugin.xmi.api.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
