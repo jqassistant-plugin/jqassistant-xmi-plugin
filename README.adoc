@@ -100,7 +100,7 @@ image::src/main/documentation/assets/EA_Export.png[]
 TIP: The exported XMI file should be added to the version control of the project.
 
 [[MapTheModelToCode]]
-=== Map Model to Code
+=== Map The Model to Code
 
 Building the project will import...
 
@@ -108,7 +108,7 @@ Building the project will import...
 * and the XMI model
 
 These items are still disconnected graphs, i.e. independent of each other.
-Therefore mappings must be provided, these are created as project specific concepts.
+Therefore a mapping must be provided, this is done by defining project specific concept(s).
 
 In case of the Spring PetClinic there is a root package `org.springframework.samples.petclinic` containing the application:
 
@@ -122,7 +122,7 @@ Therefore a concept `petclinic:Component` is defined which adds the label `Compo
 include::src/main/documentation/assets/petclinic.xml[tags=petclinicComponent]
 ----
 
-The concept `petclinic:ComponentDependency` propagates dependencies between Java types to the component level:
+Based on it another concept `petclinic:ComponentDependency` propagates dependencies between Java types to the component level:
 
 [source,xml]
 ----
@@ -131,19 +131,18 @@ include::src/main/documentation/assets/petclinic.xml[tags=petclinicComponentDepe
 
 NOTE: This concept requires the before defined concept `petclinic:Component`.
 
-The concept `petclinic:ComponentDefinedByUMLComponent` maps the Java packages and the UML packages from the XMI model by simply matching names
+The concept `petclinic:ComponentDefinedByUMLComponent` maps the Java packages and the UML packages from the XMI model by simply matching their names:
 
 [source,xml]
 ----
 include::src/main/documentation/assets/petclinic.xml[tags=petclinicComponentDefinedByUMLComponent]
 ----
 
-NOTE: This concept requires `petclinic:Component` as well as the concepts `xmi:UMLPackage` and `xmi:UMLPackage` which are provided by this plugin.
+NOTE: This concept requires `petclinic:Component` as well as the pre-defined concepts `xmi:UMLPackage` and `xmi:UMLPackage` which are provided by this plugin.
 
 This allows to use patterns expressing that a Java component is defined by an UML component:
 
 `(component:Java:Component)-[:DEFINED_BY]->(umlComponent:UML:Component)`
-
 
 [[ValidateTheCode]]
 === Validate Code Structures
