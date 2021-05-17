@@ -100,7 +100,7 @@ RETURN
   *
 ----
 
-NOTE: The concept filters for UML components in the UML package `Components` (see diagram above).
+NOTE: The concept filters for UML components in the UML package `Components` (see diagram in the section <<DefineTheModel>>).
 
 [[MapTheModelToCode]]
 == Map The Model to Code
@@ -122,7 +122,7 @@ Therefore a concept `petclinic:JavaComponent` is defined which adds the label `C
 
 [[petclinic:JavaComponent]]
 [source,cypher,role=concept]
-.Every package contained in the root package 'org.springframework.samples.petclinic' represents a `Java` `Component`.
+.Every package contained in the root package `org.springframework.samples.petclinic` represents a `Java` `Component`.
 ----
 MATCH
   (:Main:Artifact)-[:CONTAINS]->(rootPackage:Java:Package)-[:CONTAINS]->(component:Java:Package)
@@ -164,7 +164,7 @@ The concept `petclinic:JavaComponentDefinedByUMLComponent` maps the Java package
 
 [[petclinic:JavaComponentDefinedByUMLComponent]]
 [source,cypher,role=concept,requiresConcepts="petclinic:JavaComponent,xmi:UMLPackage,xmi:UMLComponent"]
-.A Java "Component" package is defined by ("DEFINED_BY") by a UML "Component" having the same name which is contained in the UML model package `Components`.
+.A Java "Component" package is defined by (`DEFINED_BY`) by a UML `Component` having the same name which is contained in the UML model package `Components`.
 ----
 MATCH
   (component:Java:Package:Component),
@@ -249,3 +249,5 @@ RETURN
 ----
 
 Done!
+
+
