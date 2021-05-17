@@ -1,0 +1,253 @@
+:toc: left
+:imagesdir: img/
+= Spring PetClinic
+
+[[default]]
+[role=group,includesConstraints="petclinic:*",includesConcepts="petclinic:*Report"]
+== Overview
+
+This document describes how a UML model contained in a XMI file can be used to:
+
+* <<IntegrateJQAssistant>>
+* <<DefineTheModel>>
+* <<MapTheModelToCode>>
+* <<ValidateTheCode>>
+
+For the purpose of this example the https://github.com/spring-projects/spring-petclinic[Spring PetClinic Sample Application^] is used.
+
+TIP: This document and the included rules can be executed by jQAssistant. Just run the build from the parent directory `spring-petclinic` using `mvn clean verify -PjQAssistant`. The rendered documentation will be available in the folder `spring-petclinic/target/jqassistant/report/asciidoc`.
+
+[[IntegrateJQAssistant]]
+== Integrate jQAssistant
+
+As the first step jQAssistant is added to the `pom.xml` of the application.
+The setup below includes the XMI plugin and a `scanIncludes` section pointing to the folder `src/main/xmi` where the exported UML model will be stored.
+
+.pom.xml
+[source,xml]
+----
+<build>
+  <plugins>
+    <plugin>
+      <groupId>com.buschmais.jqassistant</groupId>
+      <artifactId>jqassistant-maven-plugin</artifactId>
+      <version>${jqassistant.version}</version>
+      <executions>
+        <execution>
+          <id>default-cli</id>
+          <goals>
+            <goal>scan</goal>
+            <goal>analyze</goal>
+          </goals>
+          <configuration>
+            <scanIncludes>                                                   <!--1-->
+              <scanInclude>
+                <path>${project.basedir}/src/main/xmi</path>
+              </scanInclude>
+            </scanIncludes>
+          </configuration>
+        </execution>
+      </executions>
+      <dependencies>
+        <dependency>                                                         <!--2-->
+          <groupId>org.jqassistant.contrib.plugin</groupId>
+          <artifactId>jqassistant-xmi-plugin</artifactId>
+          <version>${jqassistant-xmi-plugin.version}</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+  </plugins>
+</build>
+----
+
+[[DefineTheModel]]
+== Define The Model
+
+The building blocks and their allowed dependencies are modeled as component diagram, in this example https://sparxsystems.com/products/ea/[Sparx Systems Enterprise Architect^] is used:
+
+image::EA_Model.png[]
+
+The UML package `Components` contains the model elements used for validation.
+
+This model can be exported as XMI file in EA using the following steps:
+
+. Select the package to export (e.g. the `Model` node of the project):
++
+image::EA_Project.png[]
+
+. In the ribbon `Publish` click `Publish As...`
++
+image::EA_Publish.png[]
+
+. Choose the desired target folder and file name within your project (e.g. `src/main/xmi/petclinic.xmi`, see `scanIncludes` configuration in the section <<IntegrateJQAssistant>>), select `UML 2.x` as XML type and click `Export`:
++
+image::EA_Export.png[]
+
+TIP: The exported XMI file should be added to the version control of the project.
+
+During a build (`mvn install`) the model will be imported by the XMI scanner.
+The model can be reported as PlantUML diagram using the concept `petclinic:UMLComponentReport`:
+
+[[petclinic:UMLComponentReport]]
+[source,cypher,role=concept,requiresConcepts="xmi:UMLPackage,xmi:UMLComponent,xmi:UMLDependency",reportType="plantuml-component-diagram"]
+.Defined UML Components and their dependencies
+----
+MATCH
+  (:UML:Package{name:"Components"})-[:HAS_CHILD]->(umlComponent:UML:Component)
+OPTIONAL MATCH
+  (umlComponent)-[hasDependency:HAS_DEPENDENCY]->(:UML:Component)
+RETURN
+  *
+----
+
+NOTE: The concept filters for UML components in the UML package `Components` (see diagram in the section <<DefineTheModel>>).
+
+[[MapTheModelToCode]]
+== Map The Model to Code
+
+Building the project will import...
+
+* the code structures (e.g. Maven modules & artifacts, Java packages and classes)
+* and the XMI model
+
+These items are still disconnected graphs, i.e. independent of each other.
+Therefore a mapping must be provided, this is done by defining project specific concept(s).
+
+In case of the Spring PetClinic there is a root package `org.springframework.samples.petclinic` containing the application:
+
+image::IDE_Project.png[]]
+
+Each package within the root package of the application (main artifact) shall represent a component.
+Therefore a concept `petclinic:JavaComponent` is defined which adds the label `Component` to each of these packages:
+
+[[petclinic:JavaComponent]]
+[source,cypher,role=concept]
+.Every package contained in the root package `org.springframework.samples.petclinic` represents a `Java` `Component`.
+----
+MATCH
+  (:Main:Artifact)-[:CONTAINS]->(rootPackage:Java:Package)-[:CONTAINS]->(component:Java:Package)
+WHERE
+  rootPackage.fqn="org.springframework.samples.petclinic"
+SET
+  component:Component
+RETURN
+  component as Component
+----
+
+Based on it another concept `petclinic:JavaComponentDependency` propagates dependencies between Java types to the component level:
+
+[[petclinic:JavaComponentDependency]]
+[source,cypher,role=concept,requiresConcepts="petclinic:JavaComponent"]
+.A Java component depends on another Java component (`DEPENDS_ON_COMPONENT`) if there exists a dependency between Java types contained in these components (including Java types in sub-packages of the components).
+----
+MATCH
+  (component1:Java:Package:Component)-[:CONTAINS*]->(type1:Java:Type),
+  (component2:Java:Package:Component)-[:CONTAINS*]->(type2:Java:Type),
+  (type1)-[dependsOn:DEPENDS_ON]->(type2)
+WHERE
+  component1 <> component2
+WITH
+  component1, component2, count(dependsOn) as weight
+MERGE
+  (component1)-[dependsOnComponent:DEPENDS_ON_COMPONENT]->(component2)
+SET
+  dependsOnComponent.weight=weight
+RETURN
+  component1 as Dependent, component2 as Dependency, weight as Weight
+ORDER BY
+  weight desc
+----
+
+NOTE: This concept requires the before defined concept `petclinic:JavaComponent`.
+
+The concept `petclinic:JavaComponentDefinedByUMLComponent` maps the Java packages and the UML packages from the XMI model by matching their names (case-insensitive):
+
+[[petclinic:JavaComponentDefinedByUMLComponent]]
+[source,cypher,role=concept,requiresConcepts="petclinic:JavaComponent,xmi:UMLPackage,xmi:UMLComponent"]
+.A Java "Component" package is defined by (`DEFINED_BY`) by a UML `Component` having the same name which is contained in the UML model package `Components`.
+----
+MATCH
+  (component:Java:Package:Component),
+  (:UML:Package{name:"Components"})-[:HAS_CHILD]->(umlComponent:UML:Component)
+WHERE
+  lower(component.name) = lower(umlComponent.name)
+MERGE
+  (component)-[:DEFINED_BY]->(umlComponent)
+RETURN
+  component as Component, umlComponent.name as UMLComponent
+----
+
+NOTE: This concept requires `petclinic:JavaComponent` as well as the pre-defined concepts `xmi:UMLPackage` and `xmi:UMLPackage` provided by the XMI plugin.
+
+This allows to use patterns expressing that a Java component is defined by an UML component:
+
+`(component:Java:Component)-[:DEFINED_BY]->(umlComponent:UML:Component)`
+
+[[ValidateTheCode]]
+== Validate Code Structures
+
+Based on the concepts defined above several constraints can be defined.
+
+. First a basic validation: Are there any Java component in the code which is not defined by the UML model?
++
+[[petclinic:UndefinedJavaComponent]]
+[source,cypher,role=constraint,requiresConcepts="petclinic:JavaComponent,petclinic:JavaComponentDefinedByUMLComponent"]
+.Every Java component must be defined by an UML component.
+----
+MATCH
+  (component:Java:Package:Component)
+WHERE NOT
+  (component)-[:DEFINED_BY]->(:UML:Component)
+RETURN
+  component as UndefinedComponent
+----
+
+. Vice versa: Are there any UML components are not used in the code by Java components (e.g. left-overs from a refactoring)?
++
+[[petclinic:UnusedUMLComponent]]
+[source,cypher,role=constraint,requiresConcepts="petclinic:JavaComponent,petclinic:JavaComponentDefinedByUMLComponent"]
+.Every UML component must be mapped to a Java Component, i.e. unused UML components must be removed from the UML model.
+----
+MATCH
+  (component:UML:Component)
+WHERE NOT
+  ()-[:DEFINED_BY]->(component)
+RETURN
+  component as UnusedComponent
+----
+
+. Are there any dependencies between Java components which are not defined in the UML model?
++
+[[petclinic:UndefinedJavaComponentDependency]]
+[source,cypher,role=constraint,requiresConcepts="petclinic:JavaComponentDependency,petclinic:JavaComponentDefinedByUMLComponent,xmi:UMLDependency"]
+.Every dependency between Java components must be defined by a dependency in the UML model.
+----
+MATCH
+  (component1:Package:Component)-[:DEFINED_BY]->(umlComponent1:UML:Component),
+  (component2:Package:Component)-[:DEFINED_BY]->(umlComponent2:UML:Component),
+  (component1)-[:DEPENDS_ON_COMPONENT]->(component2)
+WHERE NOT
+  (umlComponent1)-[:HAS_DEPENDENCY]->(umlComponent2)
+RETURN
+  component1 as Dependent, component2 as UndefinedDependency
+----
+
+. Vice versa again: Are there any component dependencies defined in the UML model which are not used in the Java code?
++
+[[petclinic:UnusedUMLComponentDependency]]
+[source,cypher,role=constraint,requiresConcepts="petclinic:JavaComponentDependency",petclinic:JavaComponentDefinedByUMLComponent,xmi:UMLDependency"]
+.Every dependency between UML components must be mapped to a dependency between Java Components, i.e. unused UML dependencies must be removed from the UML model.
+----
+MATCH
+  (component1:Package:Component)-[:DEFINED_BY]->(umlComponent1:UML:Component),
+  (component2:Package:Component)-[:DEFINED_BY]->(umlComponent2:UML:Component),
+  (umlComponent1)-[:HAS_DEPENDENCY]->(umlComponent2)
+WHERE NOT
+  (component1)-[:DEPENDS_ON_COMPONENT]->(component2)
+RETURN
+  umlComponent1 as Dependent, umlComponent2 as UnusedDependency
+----
+
+Done!
+
+

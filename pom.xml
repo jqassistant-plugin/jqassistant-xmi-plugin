@@ -43,7 +43,6 @@
         <org.slf4j.version>1.7.12</org.slf4j.version>
     </properties>
 
-
     <dependencies>
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
@@ -111,4 +110,40 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>IT</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-invoker-plugin</artifactId>
+                        <version>3.2.2</version>
+                        <configuration>
+                            <projectsDirectory>${project.basedir}/src/example</projectsDirectory>
+                            <cloneProjectsTo>${project.build.directory}/example</cloneProjectsTo>
+                            <pomIncludes>*/pom.xml</pomIncludes>
+                            <streamLogs>true</streamLogs>
+                            <properties>
+                                <skipTests>true</skipTests>
+                                <jqassistant.version>${com.buschmais.jqassistant.version}</jqassistant.version>
+                                <jqassistant-xmi-plugin.version>${project.version}</jqassistant-xmi-plugin.version>
+                            </properties>
+                            <invokerPropertiesFile>.invoker/invoker.properties</invokerPropertiesFile>
+                            <postBuildHookScript>.invoker/verify</postBuildHookScript>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>example</id>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
