@@ -20,39 +20,36 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
 [source,xml]
 ----
 <build>
-    <plugins>
-        <plugin>
-            <groupId>com.buschmais.jqassistant</groupId>
-            <artifactId>jqassistant-maven-plugin</artifactId>
-            <version>1.9.0</version>
-            <executions>
-                <execution>
-                    <id>default-cli</id>
-                    <goals>
-                        <goal>scan</goal>
-                        <goal>analyze</goal>
-                    </goals>
-                    <configuration>
-                        <scanIncludes>                                                   <!--1-->
-                            <scanInclude>
-                                <path>${project.basedir}/src/main/xmi</path>
-                            </scanInclude>
-                        </scanIncludes>
-                        <groups>
-                            <group>xmi:UMLDefault</group>
-                        </groups>
-                    </configuration>
-                </execution>
-            </executions>
-            <dependencies>
-                <dependency>                                                             <!--2-->
-                    <groupId>org.jqassistant.contrib.plugin</groupId>
-                    <artifactId>jqassistant-xmi-plugin</artifactId>
-                    <version>1.9.0-M1</version>
-                </dependency>
-            </dependencies>
-        </plugin>
-    </plugins>
+  <plugins>
+    <plugin>
+      <groupId>com.buschmais.jqassistant</groupId>
+      <artifactId>jqassistant-maven-plugin</artifactId>
+      <version>${jqassistant.version}</version>
+      <executions>
+        <execution>
+          <id>default-cli</id>
+          <goals>
+            <goal>scan</goal>
+            <goal>analyze</goal>
+          </goals>
+          <configuration>
+            <scanIncludes>                                                   <!--1-->
+              <scanInclude>
+                <path>${project.basedir}/src/main/xmi</path>
+              </scanInclude>
+            </scanIncludes>
+          </configuration>
+        </execution>
+      </executions>
+      <dependencies>
+        <dependency>                                                             <!--2-->
+          <groupId>org.jqassistant.contrib.plugin</groupId>
+          <artifactId>jqassistant-xmi-plugin</artifactId>
+          <version>${jqassistant-xmi-plugin.version}</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+  </plugins>
 </build>
 ----
 <1> Adds a folder to be scanned by the jQAssistant Maven plugin, any contained `.xmi` file will be scanned.
@@ -64,91 +61,9 @@ Download the JAR file from https://search.maven.org/artifact/org.jqassistant.con
 
 Executing the command `jqassistant.sh scan -f src/xmi/` (Linux) or `jqassistant.cmd scan -f src/xmi/` will scan any file with the extension ´.xmi´ located in the given folder.
 
-== Usage Example
+== Sprint PetClinic Example
 
-This section describes how a UML model contained in a XMI file can be used to:
-
-* <<DefineTheModel>>,
-* <<MapTheModelToCode>>
-* <<ValidateTheCode>>
-
-[[DefineTheModel]]
-=== Define The Model
-
-For the purpose of this example the https://github.com/spring-projects/spring-petclinic[Spring PetClinic Sample Application] is used.
-
-The building blocks and their allowed dependencies are modeled as component diagram (in this case using https://sparxsystems.com/products/ea/[Sparx Systems Enterprise Architect]):
-
-image::src/main/documentation/assets/EA_Model.png[]
-
-* The UML package `Components` contains the model elements used for validation
-
-This model can be exported as XMI file in EA using the following steps:
-
-1. Select the package to export (e.g. the `Model` node of the project):
-
-image::src/main/documentation/assets/EA_Project.png[]
-
-2. In the ribbon `Publish` click `Publish As...`
-
-image::src/main/documentation/assets/EA_Publish.png[]
-
-3. Choose the desired target folder and file name within your project (e.g. `src/main/xmi/petclinic.xmi`, see <<Maven>> configuration above), select `UML 2.x` as XML type and click `Export`:
-
-image::src/main/documentation/assets/EA_Export.png[]
-
-TIP: The exported XMI file should be added to the version control of the project.
-
-[[MapTheModelToCode]]
-=== Map The Model to Code
-
-Building the project will import...
-
-* the code structures (e.g. Maven modules & artifacts, Java packages and classes)
-* and the XMI model
-
-These items are still disconnected graphs, i.e. independent of each other.
-Therefore a mapping must be provided, this is done by defining project specific concept(s).
-
-In case of the Spring PetClinic there is a root package `org.springframework.samples.petclinic` containing the application:
-
-image:src/main/documentation/assets/IDE_Project.png[]]
-
-Each package within the root package of the application (main artifact) shall represent a component.
-Therefore a concept `petclinic:Component` is defined which adds the label `Component` to each of these packages:
-
-[source,xml]
-----
-include::src/main/documentation/assets/petclinic.xml[tags=petclinicComponent]
-----
-
-Based on it another concept `petclinic:ComponentDependency` propagates dependencies between Java types to the component level:
-
-[source,xml]
-----
-include::src/main/documentation/assets/petclinic.xml[tags=petclinicComponentDependency]
-----
-
-NOTE: This concept requires the before defined concept `petclinic:Component`.
-
-The concept `petclinic:ComponentDefinedByUMLComponent` maps the Java packages and the UML packages from the XMI model by simply matching their names:
-
-[source,xml]
-----
-include::src/main/documentation/assets/petclinic.xml[tags=petclinicComponentDefinedByUMLComponent]
-----
-
-NOTE: This concept requires `petclinic:Component` as well as the pre-defined concepts `xmi:UMLPackage` and `xmi:UMLPackage` which are provided by this plugin.
-
-This allows to use patterns expressing that a Java component is defined by an UML component:
-
-`(component:Java:Component)-[:DEFINED_BY]->(umlComponent:UML:Component)`
-
-[[ValidateTheCode]]
-=== Validate Code Structures
-
-Based on the defined concepts several constraints can be defined.
-
+The folder link:src/test/spring-petclinic[] of this project contains a https://github.com/spring-projects/spring-petclinic[Spring PetClinic] based example for using the XMI plugin to define components and their dependencies. Refer to the file link:src/test/spring-petclinic/jqassistant/index.adoc[jqassistant/index.adoc] for a detailed description of the setup and rules.
 
 == Reference Documentation
 

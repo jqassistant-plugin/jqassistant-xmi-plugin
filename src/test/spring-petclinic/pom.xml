@@ -30,6 +30,10 @@
     <jacoco.version>0.8.5</jacoco.version>
     <nohttp-checkstyle.version>0.0.4.RELEASE</nohttp-checkstyle.version>
     <spring-format.version>0.0.25</spring-format.version>
+
+    <!-- jQAssistant -->
+    <jqassistant.version>1.9.0</jqassistant.version>
+    <jqassistant-xmi-plugin.version>1.9.0</jqassistant-xmi-plugin.version>
   </properties>
 
   <dependencies>
@@ -380,6 +384,52 @@
             </plugin>
           </plugins>
         </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>jQAssistant</id>
+      <build>
+        <!-- copy image resources of jQAssistant ADOC files -->
+        <resources>
+          <resource>
+            <directory>jqassistant</directory>
+            <targetPath>${project.build.directory}/jqassistant/report/asciidoc</targetPath>
+            <includes>
+              <include>img/**</include>
+            </includes>
+          </resource>
+        </resources>
+        <!-- Define the jQAssistant plugin -->
+        <plugins>
+          <plugin>
+            <groupId>com.buschmais.jqassistant</groupId>
+            <artifactId>jqassistant-maven-plugin</artifactId>
+            <version>${jqassistant.version}</version>
+            <executions>
+              <execution>
+                <id>default-cli</id>
+                <goals>
+                  <goal>scan</goal>
+                  <goal>analyze</goal>
+                </goals>
+                <configuration>
+                  <scanIncludes>                                                   <!--1-->
+                    <scanInclude>
+                      <path>${project.basedir}/src/main/xmi</path>
+                    </scanInclude>
+                  </scanIncludes>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>                                                             <!--2-->
+                <groupId>org.jqassistant.contrib.plugin</groupId>
+                <artifactId>jqassistant-xmi-plugin</artifactId>
+                <version>${jqassistant-xmi-plugin.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
       </build>
     </profile>
   </profiles>
