@@ -245,7 +245,7 @@ MATCH
 WHERE NOT
   (component1)-[:DEPENDS_ON_COMPONENT]->(component2)
 RETURN
-  umlComponent1 as Dependent, umlComponent2 as UnUsedDependency
+  umlComponent1 as Dependent, umlComponent2 as UnusedDependency
 ----
 
 Done!

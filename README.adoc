@@ -63,7 +63,7 @@ Executing the command `jqassistant.sh scan -f src/xmi/` (Linux) or `jqassistant.
 
 == Sprint PetClinic Example
 
-The folder link:src/test/spring-petclinic[] of this project contains a https://github.com/spring-projects/spring-petclinic[Spring PetClinic] based example for using the XMI plugin to define components and their dependencies. Refer to the file link:src/test/spring-petclinic/jqassistant/index.adoc[jqassistant/index.adoc] for a detailed description of the setup and rules.
+The folder link:src/example/spring-petclinic[] of this project contains a https://github.com/spring-projects/spring-petclinic[Spring PetClinic] based example for using the XMI plugin to define components and their dependencies. Refer to the file link:src/example/spring-petclinic/jqassistant/index.adoc[jqassistant/index.adoc] for a detailed description of the setup and rules.
 
 == Reference Documentation
 
