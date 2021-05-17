@@ -1,7 +1,7 @@
 :toc:
 = jQAssistant XMI Plugin
 
-The http://jqassistant.org/[jQAssistant] XMI Plugin provides scanners and rules for importing UML models, e.g. from XMI files.
+The http://jqassistant.org/[jQAssistant^] XMI Plugin provides scanners and rules for importing UML models, e.g. from XMI files.
 These models may be used by constraints to verify
 
 == Prerequisites
@@ -42,7 +42,7 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
         </execution>
       </executions>
       <dependencies>
-        <dependency>                                                             <!--2-->
+        <dependency>                                                         <!--2-->
           <groupId>org.jqassistant.contrib.plugin</groupId>
           <artifactId>jqassistant-xmi-plugin</artifactId>
           <version>${jqassistant-xmi-plugin.version}</version>
@@ -57,13 +57,16 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
 
 === Command Line Utility
 
-Download the JAR file from https://search.maven.org/artifact/org.jqassistant.contrib.plugin/jqassistant-xmi-plugin[Maven Central] and put it into the `/plugins` folder of the distribution.
+Download the JAR file from https://search.maven.org/artifact/org.jqassistant.contrib.plugin/jqassistant-xmi-plugin[Maven Central^] and put it into the `/plugins` folder of the distribution.
 
 Executing the command `jqassistant.sh scan -f src/xmi/` (Linux) or `jqassistant.cmd scan -f src/xmi/` will scan any file with the extension ´.xmi´ located in the given folder.
 
 == Sprint PetClinic Example
 
-The folder link:src/example/spring-petclinic[] of this project contains a https://github.com/spring-projects/spring-petclinic[Spring PetClinic] based example for using the XMI plugin to define components and their dependencies. Refer to the file link:src/example/spring-petclinic/jqassistant/index.adoc[jqassistant/index.adoc] for a detailed description of the setup and rules.
+The folder link:src/example/spring-petclinic[^] of this project contains a https://github.com/spring-projects/spring-petclinic[Spring PetClinic^] based example for using the XMI plugin to define components and their dependencies.
+Refer to the file link:src/example/spring-petclinic/jqassistant/index.adoc[jqassistant/index.adoc^] for a detailed description of the setup and rules.
+
+TIP: To view full metadata of embedded rules (e.g. required concepts) switch to `Raw` mode.
 
 == Reference Documentation
 
@@ -271,12 +274,12 @@ The plugin provides concepts for extracting UML models, e.g. for
 * labeling `:UML:PackagedElement` nodes having `xmiType=uml:Component` as `:UML:Component`.
 * creating `(:UML:Component)-[:HAS_DEPENDENCY]->(:UML:Component)` relations from `:PackagedElement` nodes having `xmiType=uml:Dependency`.
 
-The rules including their descriptions are defined in the file link:src/main/resources/META-INF/jqassistant-rules/xmi.xml[/META-INF/jqassistant-rules/xmi.xml].
+The rules including their descriptions are defined in the file link:src/main/resources/META-INF/jqassistant-rules/xmi.xml[/META-INF/jqassistant-rules/xmi.xml^].
 
 Furthermore a group `xmi:UML` is provided which allows easily applying all UML related concepts.
 
 [[feedback]]
 == Feedback
 
-Please report any issues https://github.com/jqassistant-contrib/jqassistant-xmi-plugin/issues[here].
+Please report any issues https://github.com/jqassistant-contrib/jqassistant-xmi-plugin/issues[here^].
 

@@ -13,7 +13,7 @@ This document describes how a UML model contained in a XMI file can be used to:
 * <<MapTheModelToCode>>
 * <<ValidateTheCode>>
 
-For the purpose of this example the https://github.com/spring-projects/spring-petclinic[Spring PetClinic Sample Application] is used.
+For the purpose of this example the https://github.com/spring-projects/spring-petclinic[Spring PetClinic Sample Application^] is used.
 
 TIP: This document and the included rules can be executed by jQAssistant. Just run the build from the parent directory `spring-petclinic` using `mvn clean verify -PjQAssistant`. The rendered documentation will be available in the folder `spring-petclinic/target/jqassistant/report/asciidoc`.
 
@@ -49,7 +49,7 @@ The setup below includes the XMI plugin and a `scanIncludes` section pointing to
         </execution>
       </executions>
       <dependencies>
-        <dependency>                                                             <!--2-->
+        <dependency>                                                         <!--2-->
           <groupId>org.jqassistant.contrib.plugin</groupId>
           <artifactId>jqassistant-xmi-plugin</artifactId>
           <version>${jqassistant-xmi-plugin.version}</version>
@@ -63,7 +63,7 @@ The setup below includes the XMI plugin and a `scanIncludes` section pointing to
 [[DefineTheModel]]
 == Define The Model
 
-The building blocks and their allowed dependencies are modeled as component diagram, in this example https://sparxsystems.com/products/ea/[Sparx Systems Enterprise Architect] is used:
+The building blocks and their allowed dependencies are modeled as component diagram, in this example https://sparxsystems.com/products/ea/[Sparx Systems Enterprise Architect^] is used:
 
 image::EA_Model.png[]
 
@@ -100,7 +100,7 @@ RETURN
   *
 ----
 
-NOTE: The concept filters for UML components in the UML package `components`.
+NOTE: The concept filters for UML components in the UML package `Components` (see diagram above).
 
 [[MapTheModelToCode]]
 == Map The Model to Code
