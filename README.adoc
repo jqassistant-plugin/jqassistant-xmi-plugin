@@ -19,38 +19,45 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
 .pom.xml
 [source,xml]
 ----
-<build>
-  <plugins>
-    <plugin>
-      <groupId>com.buschmais.jqassistant</groupId>
-      <artifactId>jqassistant-maven-plugin</artifactId>
-      <version>${jqassistant.version}</version>
-      <executions>
-        <execution>
-          <id>default-cli</id>
-          <goals>
-            <goal>scan</goal>
-            <goal>analyze</goal>
-          </goals>
-          <configuration>
-            <scanIncludes>                                                   <!--1-->
-              <scanInclude>
-                <path>${project.basedir}/src/main/xmi</path>
-              </scanInclude>
-            </scanIncludes>
-          </configuration>
-        </execution>
-      </executions>
-      <dependencies>
-        <dependency>                                                         <!--2-->
-          <groupId>org.jqassistant.contrib.plugin</groupId>
-          <artifactId>jqassistant-xmi-plugin</artifactId>
-          <version>${jqassistant-xmi-plugin.version}</version>
-        </dependency>
-      </dependencies>
-    </plugin>
-  </plugins>
-</build>
+<project>
+  <properties>
+    <jqassistant.version>1.9.0</jqassistant.version>
+    <jqassistant-xmi-plugin.version>1.9.0-M2</jqassistant-xmi-plugin.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.buschmais.jqassistant</groupId>
+        <artifactId>jqassistant-maven-plugin</artifactId>
+        <version>${jqassistant.version}</version>
+        <executions>
+          <execution>
+            <id>default-cli</id>
+            <goals>
+              <goal>scan</goal>
+              <goal>analyze</goal>
+            </goals>
+            <configuration>
+              <scanIncludes>                                                   <!--1-->
+                <scanInclude>
+                  <path>${project.basedir}/src/main/xmi</path>
+                </scanInclude>
+              </scanIncludes>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>                                                         <!--2-->
+            <groupId>org.jqassistant.contrib.plugin</groupId>
+            <artifactId>jqassistant-xmi-plugin</artifactId>
+            <version>${jqassistant-xmi-plugin.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+</project>
 ----
 <1> Adds a folder to be scanned by the jQAssistant Maven plugin, any contained `.xmi` file will be scanned.
 <2> Declares the UML plugin as dependency.
