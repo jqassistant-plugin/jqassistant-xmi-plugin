@@ -158,7 +158,7 @@ ORDER BY
   weight desc
 ----
 
-NOTE: This concept requires the before defined concept `petclinic:JavaComponent`.
+NOTE: This concept requires the before defined concept `<<petclinic:JavaComponent,petclinic:JavaComponent>>`.
 
 The concept `petclinic:JavaComponentDefinedByUMLComponent` maps the Java packages and the UML packages from the XMI model by matching their names (case-insensitive):
 
@@ -177,18 +177,22 @@ RETURN
   component as Component, umlComponent.name as UMLComponent
 ----
 
-NOTE: This concept requires `petclinic:JavaComponent` as well as the pre-defined concepts `xmi:UMLPackage` and `xmi:UMLPackage` provided by the XMI plugin.
+NOTE: This concept requires `<<petclinic:JavaComponent,petclinic:JavaComponent>>` as well as the concepts `xmi:UMLPackage` and `xmi:UMLPackage` provided by the XMI plugin.
 
 This allows to use patterns expressing that a Java component is defined by an UML component:
 
 `(component:Java:Component)-[:DEFINED_BY]->(umlComponent:UML:Component)`
 
+Applying the concepts above creates the following graph where the upper part represents the UML model and the lower part the Java code structures.
+
+image::Neo4j_Concepts.svg[]
+
 [[ValidateTheCode]]
 == Validate Code Structures
 
-Based on the concepts defined above several constraints can be defined.
+Based on these concepts several constraints can be defined to verify if the Java code adheres to the UML model:
 
-. First a basic validation: Are there any Java component in the code which is not defined by the UML model?
+. First a basic validation: Are there any Java components in the code which are not defined by a UML Component?
 +
 [[petclinic:UndefinedJavaComponent]]
 [source,cypher,role=constraint,requiresConcepts="petclinic:JavaComponent,petclinic:JavaComponentDefinedByUMLComponent"]
@@ -201,8 +205,10 @@ WHERE NOT
 RETURN
   component as UndefinedComponent
 ----
++
+NOTE: This constraint requires the concepts <<petclinic:JavaComponent,petclinic:JavaComponent>> and `<<petclinic:JavaComponentDefinedByUMLComponent,petclinic:JavaComponentDefinedByUMLComponent>>`.
 
-. Vice versa: Are there any UML components are not used in the code by Java components (e.g. left-overs from a refactoring)?
+. Vice versa: Are there any UML components which are not used in the code by any Java component (e.g. left-overs from a refactoring)?
 +
 [[petclinic:UnusedUMLComponent]]
 [source,cypher,role=constraint,requiresConcepts="petclinic:JavaComponent,petclinic:JavaComponentDefinedByUMLComponent"]
@@ -215,8 +221,11 @@ WHERE NOT
 RETURN
   component as UnusedComponent
 ----
++
+NOTE: This constraint requires the concepts <<petclinic:JavaComponent,petclinic:JavaComponent>> and `<<petclinic:JavaComponentDefinedByUMLComponent,petclinic:JavaComponentDefinedByUMLComponent>>`.
 
-. Are there any dependencies between Java components which are not defined in the UML model?
+
+. Are there any dependencies between Java components which are not defined by the UML model?
 +
 [[petclinic:UndefinedJavaComponentDependency]]
 [source,cypher,role=constraint,requiresConcepts="petclinic:JavaComponentDependency,petclinic:JavaComponentDefinedByUMLComponent,xmi:UMLDependency"]
@@ -231,8 +240,10 @@ WHERE NOT
 RETURN
   component1 as Dependent, component2 as UndefinedDependency
 ----
++
+NOTE: This constraint requires the concepts <<petclinic:JavaComponent,petclinic:JavaComponent>>, `<<petclinic:JavaComponentDefinedByUMLComponent,petclinic:JavaComponentDefinedByUMLComponent>>` and `xmi:UMLDependency`.
 
-. Vice versa again: Are there any component dependencies defined in the UML model which are not used in the Java code?
+. Vice versa again: Are there any component dependencies defined by the UML model which are not used in the Java code?
 +
 [[petclinic:UnusedUMLComponentDependency]]
 [source,cypher,role=constraint,requiresConcepts="petclinic:JavaComponentDependency",petclinic:JavaComponentDefinedByUMLComponent,xmi:UMLDependency"]
@@ -247,6 +258,9 @@ WHERE NOT
 RETURN
   umlComponent1 as Dependent, umlComponent2 as UnusedDependency
 ----
++
+NOTE: This constraint requires the concepts <<petclinic:JavaComponent,petclinic:JavaComponent>>, `<<petclinic:JavaComponentDefinedByUMLComponent,petclinic:JavaComponentDefinedByUMLComponent>>` and `xmi:UMLDependency`.
+
 
 Done!
 

@@ -33,7 +33,7 @@
 
     <!-- jQAssistant -->
     <jqassistant.version>1.9.0</jqassistant.version>
-    <jqassistant-xmi-plugin.version>1.9.0</jqassistant-xmi-plugin.version>
+    <jqassistant-xmi-plugin.version>1.9.0-M2</jqassistant-xmi-plugin.version>
   </properties>
 
   <dependencies>
@@ -413,7 +413,7 @@
                   <goal>analyze</goal>
                 </goals>
                 <configuration>
-                  <scanIncludes>                                                   <!--1-->
+                  <scanIncludes>
                     <scanInclude>
                       <path>${project.basedir}/src/main/xmi</path>
                     </scanInclude>
@@ -422,7 +422,7 @@
               </execution>
             </executions>
             <dependencies>
-              <dependency>                                                             <!--2-->
+              <dependency>
                 <groupId>org.jqassistant.contrib.plugin</groupId>
                 <artifactId>jqassistant-xmi-plugin</artifactId>
                 <version>${jqassistant-xmi-plugin.version}</version>
