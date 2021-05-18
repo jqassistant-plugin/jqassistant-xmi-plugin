@@ -1,6 +1,6 @@
 :toc: left
 :imagesdir: img/
-= Spring PetClinic
+= Spring PetClinic - jQAssistant XMI Example
 
 [[default]]
 [role=group,includesConstraints="petclinic:*",includesConcepts="petclinic:*Report"]
@@ -183,9 +183,11 @@ This allows to use patterns expressing that a Java component is defined by an UM
 
 `(component:Java:Component)-[:DEFINED_BY]->(umlComponent:UML:Component)`
 
-Applying the concepts above creates the following graph where the upper part represents the UML model and the lower part the Java code structures.
+Applying the concepts above creates the following graph where the upper part represents the UML model, the lower part the Java code structures:
 
 image::Neo4j_Concepts.svg[]
+
+NOTE: The elements of the UML and the Java part are mapped by `DEFINED_BY` relations.
 
 [[ValidateTheCode]]
 == Validate Code Structures

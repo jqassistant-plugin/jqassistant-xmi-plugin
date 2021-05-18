@@ -59,12 +59,12 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
 
 Download the JAR file from https://search.maven.org/artifact/org.jqassistant.contrib.plugin/jqassistant-xmi-plugin[Maven Central^] and put it into the `/plugins` folder of the distribution.
 
-Executing the command `jqassistant.sh scan -f src/xmi/` (Linux) or `jqassistant.cmd scan -f src/xmi/` will scan any file with the extension ´.xmi´ located in the given folder.
+Executing the command `jqassistant.sh scan -f src/xmi/` (Linux) or `jqassistant.cmd scan -f src/xmi/` will scan any file with the extension `.xmi` located in the given folder.
 
 == Sprint PetClinic Example
 
 The folder link:src/example/spring-petclinic[^] of this project contains a https://github.com/spring-projects/spring-petclinic[Spring PetClinic^] based example for using the XMI plugin to define components and their dependencies.
-Refer to the file link:src/example/spring-petclinic/jqassistant/index.adoc[jqassistant/index.adoc^] for a detailed description of the setup and rules.
+Refer to the file link:src/example/spring-petclinic/jqassistant/index.adoc[jqassistant/index.adoc^] for a detailed step-by-step description of the jQAssistant setup and rules.
 
 TIP: To view full metadata of embedded rules (e.g. required concepts) switch to `Raw` mode.
 
@@ -72,8 +72,25 @@ TIP: To view full metadata of embedded rules (e.g. required concepts) switch to 
 
 === XMI File Scanner
 
-The plugin provides a scanner which accepts files with the extension `.xmi` and creates the structure as described in this section, using
-<<XMIFile>> as entry point.
+The plugin provides a scanner which accepts files with the extension `.xmi` and creates the structure as described in this section, using <<XMIFile>> as entry point.
+
+==== Overview
+
+The scanner creates nodes with the following labels:
+
+* <<XMIFile>>
+** <<XMIDocumentation>>
+** <<XMIStereotype>>
+*** <<XMIAppliedStereotype>>
+** <<XMIElement>>
+** <<UMLModel>>
+*** <<UMLPackagedElement>>
+**** <<UMLOwnedAttribute>>
+**** <<UMLOwnedEnd>>
+**** <<UMLRequiredInterface>>
+**** <<UMLProvidedInterface>>
+** <<UMLProfileApplication>>
+*** <<UMLAppliedProfile>>
 
 [[XMIFile]]
 ==== :XMI:File
@@ -84,7 +101,7 @@ Represents a XMI file.
 .Properties of :XMI:File
 |===
 | Name     | Description
-| fileName | The file name (relative to the directory which has been specified for scanning).
+| fileName | The file name, relative to the scanned directory.
 |===
 
 [options=header]
