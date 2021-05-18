@@ -284,16 +284,16 @@ Inherits from <<XMIElement>> and represents an application of a <<XMIStereotype>
 | APPLIED_TO    | <<XMIElement>>    | 1           | References the element to which the stereotype is applied.
 |===
 
-=== Concepts
+=== Rules
 
 The plugin provides concepts for extracting UML models, e.g. for
 
 * labeling `:UML:PackagedElement` nodes having `xmiType=uml:Component` as `:UML:Component`.
 * creating `(:UML:Component)-[:HAS_DEPENDENCY]->(:UML:Component)` relations from `:PackagedElement` nodes having `xmiType=uml:Dependency`.
 
-The rules including their descriptions are defined in the file link:src/main/resources/META-INF/jqassistant-rules/xmi.xml[/META-INF/jqassistant-rules/xmi.xml^].
-
 Furthermore a group `xmi:UML` is provided which allows easily applying all UML related concepts.
+
+The rules including their descriptions are defined in the file link:src/main/resources/META-INF/jqassistant-rules/xmi.xml[/META-INF/jqassistant-rules/xmi.xml^].
 
 [[feedback]]
 == Feedback
