@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.jqassistant.contrib.common</groupId>
         <artifactId>parent</artifactId>
-        <version>1.9.0</version>
+        <version>1.10.0</version>
     </parent>
 
     <groupId>org.jqassistant.contrib.plugin</groupId>
     <artifactId>jqassistant-xmi-plugin</artifactId>
-    <version>1.9.0-SNAPSHOT</version>
+    <version>1.10.0-SNAPSHOT</version>
 
     <name>jQAssistant XMI Plugin</name>
     <description>The jQAssistant plugin for importing UML diagrams, it provides a scanner for reading XMI files and rules for extracting models. The latter can be used to verify architectural concepts in a project.</description>
@@ -113,6 +113,9 @@
     <profiles>
         <profile>
             <id>IT</id>
+            <properties>
+                <maven.invoker.localRepositoryPath>${project.build.directory}/example-repository</maven.invoker.localRepositoryPath>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -122,6 +125,7 @@
                         <configuration>
                             <projectsDirectory>${project.basedir}/src/example</projectsDirectory>
                             <cloneProjectsTo>${project.build.directory}/example</cloneProjectsTo>
+                            <localRepositoryPath>${maven.invoker.localRepositoryPath}</localRepositoryPath>
                             <pomIncludes>*/pom.xml</pomIncludes>
                             <streamLogs>true</streamLogs>
                             <properties>
@@ -136,6 +140,7 @@
                             <execution>
                                 <id>example</id>
                                 <goals>
+                                    <goal>install</goal>
                                     <goal>integration-test</goal>
                                     <goal>verify</goal>
                                 </goals>

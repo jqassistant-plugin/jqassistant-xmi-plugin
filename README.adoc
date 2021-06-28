@@ -21,7 +21,7 @@ The plugin can be enabled by adding it as a dependency to the jQAssistant Maven 
 ----
 <project>
   <properties>
-    <jqassistant.version>1.9.0</jqassistant.version>
+    <jqassistant.version>1.10.0</jqassistant.version>
     <jqassistant-xmi-plugin.version>1.9.0-M2</jqassistant-xmi-plugin.version>
   </properties>
 
