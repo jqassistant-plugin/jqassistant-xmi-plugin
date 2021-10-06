@@ -33,7 +33,7 @@
 
     <!-- jQAssistant -->
     <jqassistant.version>1.10.0</jqassistant.version>
-    <jqassistant-xmi-plugin.version>1.9.0-M2</jqassistant-xmi-plugin.version>
+    <jqassistant-xmi-plugin.version>1.10.0</jqassistant-xmi-plugin.version>
   </properties>
 
   <dependencies>
