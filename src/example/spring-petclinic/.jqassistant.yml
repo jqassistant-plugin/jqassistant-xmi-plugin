@@ -1,0 +1,15 @@
+jqassistant:
+  plugins:
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-xmi-plugin
+      version: ${jqassistant-xmi-plugin.version}
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-asciidoc-report-plugin
+      version: 2.0.0-SNAPSHOT
+    - group-id: org.jqassistant.plugin
+      artifact-id: jqassistant-plantuml-report-plugin
+      version: 2.0.0
+  scan:
+    include:
+      files:
+        - ${project.basedir}/src/main/xmi

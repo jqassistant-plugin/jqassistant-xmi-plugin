@@ -170,7 +170,7 @@ MATCH
   (component:Java:Package:Component),
   (:UML:Package{name:"Components"})-[:HAS_CHILD]->(umlComponent:UML:Component)
 WHERE
-  lower(component.name) = lower(umlComponent.name)
+  toLower(component.name) = toLower(umlComponent.name)
 MERGE
   (component)-[:DEFINED_BY]->(umlComponent)
 RETURN

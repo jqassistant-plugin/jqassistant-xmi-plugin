@@ -32,8 +32,8 @@
     <spring-format.version>0.0.25</spring-format.version>
 
     <!-- jQAssistant -->
-    <jqassistant.version>1.10.0</jqassistant.version>
-    <jqassistant-xmi-plugin.version>1.10.0</jqassistant-xmi-plugin.version>
+    <jqassistant.version>2.0.1</jqassistant.version>
+    <jqassistant-xmi-plugin.version>2.0.0-SNAPSHOT</jqassistant-xmi-plugin.version>
   </properties>
 
   <dependencies>
@@ -412,22 +412,8 @@
                   <goal>scan</goal>
                   <goal>analyze</goal>
                 </goals>
-                <configuration>
-                  <scanIncludes>
-                    <scanInclude>
-                      <path>${project.basedir}/src/main/xmi</path>
-                    </scanInclude>
-                  </scanIncludes>
-                </configuration>
               </execution>
             </executions>
-            <dependencies>
-              <dependency>
-                <groupId>org.jqassistant.contrib.plugin</groupId>
-                <artifactId>jqassistant-xmi-plugin</artifactId>
-                <version>${jqassistant-xmi-plugin.version}</version>
-              </dependency>
-            </dependencies>
           </plugin>
         </plugins>
       </build>
