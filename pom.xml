@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>jqassistant-xmi-plugin</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0-SNAPSHOT</version>
 
     <name>jQAssistant XMI Plugin</name>
     <description>The jQAssistant plugin for importing UML diagrams, it provides a scanner for reading XMI files and rules for extracting models. The latter can be used to verify architectural concepts in a project.</description>
@@ -34,7 +34,7 @@
         <developerConnection>scm:git:https://github.com/jqassistant-plugin/jqassistant-xmi-plugin.git
         </developerConnection>
         <url>https://github.com/jqassistant-plugin/jqassistant-xmi-plugin</url>
-        <tag>2.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencies>
