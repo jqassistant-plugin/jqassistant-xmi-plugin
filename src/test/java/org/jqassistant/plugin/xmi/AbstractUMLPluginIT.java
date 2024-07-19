@@ -5,13 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.buschmais.jqassistant.core.store.api.model.Descriptor;
 import com.buschmais.jqassistant.core.test.plugin.AbstractPluginIT;
 
 import com.buschmais.jqassistant.plugin.common.api.model.NamedDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 
-import static com.buschmais.jqassistant.core.scanner.api.DefaultScope.NONE;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -33,9 +31,7 @@ abstract class AbstractUMLPluginIT extends AbstractPluginIT {
      */
     @BeforeEach
     void scan() {
-        File xmiFile = new File(getClassesDirectory(XMIFileScannerPluginIT.class), UML_ELEMENTS_XMI_FILE);
-        Descriptor descriptor = getScanner().scan(xmiFile, UML_ELEMENTS_XMI_FILE, NONE);
-        //assertThat(descriptor).isInstanceOf(XMIFileDescriptor.class);
+        File xmiFile = new File(getClassesDirectory(AbstractUMLPluginIT.class), UML_ELEMENTS_XMI_FILE);
     }
 
     protected List<String> toNames(List<? extends NamedDescriptor> elements) {
