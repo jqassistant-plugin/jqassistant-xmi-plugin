@@ -1,28 +1,11 @@
-<jqassistant-plugin xmlns="http://schema.jqassistant.org/plugin/v1.8" name="XMI"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:schemaLocation="http://schema.jqassistant.org/plugin/v1.8 https://schema.jqassistant.org/plugin/jqassistant-plugin-v1.8.xsd">
-    <description>The jQAssistant plugin for importing XMI models. It provides a scanner for reading XMI files and
-        rules for extracting UML models which can be used to verify architectural concepts and constraints in a project.
+<jqassistant-plugin xmlns="http://schema.jqassistant.org/plugin/v2.2"
+                    id="jqa.plugin.xmi"
+                    name="jQAssistant XMI Plugin"
+                    version="${project.version}">
+    <description>The jQAssistant plugin for importing XMI models. It provides concepts building a xmi/uml model based on a previosly scanned XML file.
     </description>
-    <model>
-        <class>org.jqassistant.plugin.xmi.api.XMIFileDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.XMIDocumentationDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.XMIAppliedStereotypeDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.XMIStereotypeDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.XMITaggedValueDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.UMLModelDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.UMLOwnedAttributeDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.UMLOwnedEndDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.UMLProvidedInterfaceDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.UMLRequiredInterfaceDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.UMLPackagedElementDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.UMLProfileApplicationDescriptor</class>
-        <class>org.jqassistant.plugin.xmi.api.UMLAppliedProfileDescriptor</class>
-    </model>
-    <scanner>
-        <class>org.jqassistant.plugin.xmi.impl.scanner.XMIFileScannerPlugin</class>
-    </scanner>
     <rules>
-        <resource>xmi.xml</resource>
+        <resource>uml-default.xml</resource>
+        <resource>xmi-default.xml</resource>
     </rules>
 </jqassistant-plugin>
