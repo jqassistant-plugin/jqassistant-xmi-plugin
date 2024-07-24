@@ -1,12 +1,12 @@
 package org.jqassistant.plugin.xmi;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.buschmais.jqassistant.core.test.plugin.AbstractPluginIT;
-
 import com.buschmais.jqassistant.plugin.common.api.model.NamedDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 

@@ -2,7 +2,7 @@
                     id="jqa.plugin.xmi"
                     name="jQAssistant XMI Plugin"
                     version="${project.version}">
-    <description>The jQAssistant plugin for importing XMI models. It provides concepts building a xmi/uml model based on a previosly scanned XML file.
+    <description>The jQAssistant plugin for importing XMI models. It provides concepts building a xmi/uml model based on a previously scanned XML file.
     </description>
     <rules>
         <resource>uml-default.xml</resource>
