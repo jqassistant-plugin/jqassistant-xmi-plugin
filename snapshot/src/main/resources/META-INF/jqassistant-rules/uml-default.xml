@@ -1,0 +1,144 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10">
+
+    <group id="uml:Default">
+        <includeConcept refId="uml:ModelNode"/>
+        <includeConcept refId="uml:PackageableElement"/>
+        <includeConcept refId="uml:Interface"/>
+        <includeConcept refId="uml:OwnedElement"/>
+        <includeConcept refId="uml:ResolveHierarchy"/>
+        <includeConcept refId="uml:ResolveClientSupplier"/>
+        <includeConcept refId="uml:ResolveInformationSourceTarget"/>
+    </group>
+
+    <concept id="uml:Element">
+        <requiresConcept refId="xmi:File"/>
+        <description/>
+        <cypher><![CDATA[
+            MATCH   (u:UML:Element)
+            RETURN  u
+        ]]></cypher>
+    </concept>
+
+    <concept id="uml:ModelNode">
+        <providesConcept refId="uml:Element"/>
+        <requiresConcept refId="xmi:File"/>
+        <description>Creates a :UML:Model node for each model node of XMI files</description>
+        <cypher><![CDATA[
+            MATCH   (xmi:XMI:Root:Element)-[:HAS_ELEMENT]->(uml:Xml:Element{name: "Model"}),
+                    (uml)-[:HAS_ATTRIBUTE]->(name:Xml:Attribute{name: "name"})
+            MERGE   (m:UML:Element:Model{name: name.value})
+            MERGE   (xmi)-[:CONTAINS_UML_MODEL]->(m)
+            MERGE   (m)-[:IS_DEFINED_BY]->(uml)
+            RETURN  m AS Model
+        ]]></cypher>
+    </concept>
+
+    <concept id="uml:PackageableElement">
+        <providesConcept refId="uml:Element"/>
+        <requiresConcept refId="uml:ModelNode"/>
+        <description>Creates a :UML:Element with guid and name information as well as the xmiType represented as node label for the packageable elements packagedElement, nestedClassifier, and nestedArtifact.</description>
+        <cypher><![CDATA[
+            MATCH   (m:UML:Model)-[:IS_DEFINED_BY]->(x:Xml:Element),
+                    (x)-[:HAS_ELEMENT*]->(element:Xml:Element),
+                    (element)-[:HAS_ATTRIBUTE]->(id:Xml:Attribute{name: "id"})
+            WHERE   element.name IN ["packagedElement", "nestedClassifier", "nestedArtifact"]
+            WITH    element, id.value AS xmiId, replace(replace(id.value, "EAID_", ""), "_", "-") AS guid
+            MERGE   (p:UML:Element:PackageableElement{guid: guid, xmiId: xmiId})
+            MERGE   (p)-[:IS_DEFINED_BY]->(element)
+            WITH    element, p
+            OPTIONAL MATCH (element)-[:HAS_ATTRIBUTE]->(name:Xml:Attribute{name: "name"})
+            SET     p.name = name.value
+            WITH    element, p
+            OPTIONAL MATCH (element)-[:HAS_ATTRIBUTE]->(xmiType:Xml:Attribute WHERE xmiType.name = "type" AND xmiType.value STARTS WITH "uml:")
+            CALL    apoc.create.addLabels(p, [replace(xmiType.value, "uml:", "")]) YIELD node
+            RETURN  p.guid AS GUID,
+                    p.name AS Name
+        ]]></cypher>
+    </concept>
+
+    <concept id="uml:Interface">
+        <providesConcept refId="uml:PackageableElement"/>
+        <requiresConcept refId="uml:ModelNode"/>
+        <description>Creates a :UML:Element:Interface node for all provided and required elements.</description>
+        <cypher><![CDATA[
+            MATCH   (m:UML:Model)-[:IS_DEFINED_BY]->(x:Xml:Element),
+                    (x)-[:HAS_ELEMENT*]->(element:Xml:Element),
+                    (element)-[:HAS_ATTRIBUTE]->(id:Xml:Attribute{name: "id"})
+            WHERE   element.name IN ["provided", "required"]
+            WITH    element, id.value AS xmiId, replace(replace(id.value, "EAID_", ""), "_", "-") AS guid
+            MERGE   (int:UML:Element:PackageableElement:Interface{guid: guid, xmiId: xmiId})
+            MERGE   (int)-[:IS_DEFINED_BY]->(element)
+            WITH    int, element
+            OPTIONAL MATCH (element)-[:HAS_ATTRIBUTE]->(name:Xml:Attribute{name: "name"})
+            SET     int.name = name.value
+            RETURN  int.guid AS GUID,
+                    int.name AS Name
+        ]]></cypher>
+    </concept>
+
+    <concept id="uml:OwnedElement">
+        <providesConcept refId="uml:Element"/>
+        <requiresConcept refId="uml:ModelNode"/>
+        <description>Creates a :UML:Element node for ownedAttribute, ownedBehavior, ownedComment, and ownedConnector elements with id and name properties.</description>
+        <cypher><![CDATA[
+            MATCH   (m:UML:Model)-[:IS_DEFINED_BY]->(x:Xml:Element),
+                    (x)-[:HAS_ELEMENT*]->(element:Xml:Element),
+                    (element)-[:HAS_ATTRIBUTE]->(id:Xml:Attribute{name: "id"})
+            WHERE   element.name IN ["ownedAttribute", "ownedBehavior", "ownedComment", "ownedConnector"]
+            WITH    element, id.value AS xmiId, replace(replace(id.value, "EAID_", ""), "_", "-") AS guid
+            MERGE   (own:UML:Element:OwnedElement{guid: guid, xmiId: xmiId})
+            MERGE   (own)-[:IS_DEFINED_BY]->(element)
+            WITH    own, element
+            OPTIONAL MATCH (element)-[:HAS_ATTRIBUTE]->(name:Xml:Attribute{name: "name"})
+            SET     own.name = name.value
+            WITH    own, element
+            OPTIONAL MATCH (element)-[:HAS_ATTRIBUTE]->(xmiType:Xml:Attribute WHERE xmiType.name = "type" AND xmiType.value STARTS WITH "uml:")
+            CALL    apoc.create.addLabels(own, [replace(xmiType.value, "uml:", "")]) YIELD node
+            RETURN  own.guid AS GUID,
+                    own.name AS Name
+        ]]></cypher>
+    </concept>
+
+    <concept id="uml:ResolveHierarchy">
+        <requiresConcept refId="uml:Element"/>
+        <description>Resolves the hierarchy between elements by adding a generic :HAS_CHILD relation qualified by the UML attribute name.</description>
+        <cypher><![CDATA[
+            MATCH   (parent:UML:Element)-[:IS_DEFINED_BY]->(p:Xml:Element),
+                    (p)-[:HAS_ELEMENT]->(c:Xml:Element),
+                    (child:UML:Element)-[:IS_DEFINED_BY]->(c)
+            MERGE   (parent)-[h:HAS_CHILD{umlName: c.name}]->(child)
+            RETURN  count(h)
+        ]]></cypher>
+    </concept>
+
+    <concept id="uml:ResolveClientSupplier">
+        <requiresConcept refId="uml:Element"/>
+        <description>Resolves the client-supplier properties of a :UML:Element (e.g. :Abstraction, :Dependency, :Realization, or :Usage) to the specific elements.</description>
+        <cypher><![CDATA[
+            MATCH   (d:UML)-[:IS_DEFINED_BY]->(x:Xml:Element),
+                    (x)-[:HAS_ATTRIBUTE]->(client:Xml:Attribute{name: "client"}),
+                    (x)-[:HAS_ATTRIBUTE]->(supplier:Xml:Attribute{name: "supplier"}),
+                    (clientElement:UML:Element{xmiId: client.value}),
+                    (supplierElement:UML:Element{xmiId: supplier.value})
+            MERGE   (d)-[:HAS_CLIENT]->(clientElement)
+            MERGE   (d)-[:HAS_SUPPLIER]->(supplierElement)
+            RETURN  clientElement.guid AS ClientGUID, supplierElement.guid AS SupplierGUID, d.name AS RelationName
+        ]]></cypher>
+    </concept>
+
+    <concept id="uml:ResolveInformationSourceTarget">
+        <requiresConcept refId="uml:Element"/>
+        <description>Resolves the informationSource-informationTarget properties of a :UML:Element (e.g. :InformationFlow) to the specific elements.</description>
+        <cypher><![CDATA[
+            MATCH   (d:UML)-[:IS_DEFINED_BY]->(x:Xml:Element),
+                    (x)-[:HAS_ATTRIBUTE]->(source:Xml:Attribute{name: "informationSource"}),
+                    (x)-[:HAS_ATTRIBUTE]->(target:Xml:Attribute{name: "informationTarget"}),
+                    (sourceElement:UML:Element{xmiId: source.value}),
+                    (targetElement:UML:Element{xmiId: target.value})
+            MERGE   (d)-[:HAS_INFORMATION_SOURCE]->(sourceElement)
+            MERGE   (d)-[:HAS_INFORMATION_TARGET]->(targetElement)
+            RETURN  sourceElement.guid AS SourceGUID, targetElement.guid AS TargetGUIT, d.name AS RelationName
+        ]]></cypher>
+    </concept>
+
+</jqassistant-rules>

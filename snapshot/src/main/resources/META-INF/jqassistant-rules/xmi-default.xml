@@ -1,0 +1,18 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10">
+
+    <group id="xmi:Default">
+        <includeConcept refId="xmi:File"/>
+    </group>
+
+    <concept id="xmi:File">
+        <description>Labels an XML file as :XMI and its root as :XMI:Root in case it is an XMI file</description>
+        <cypher><![CDATA[
+                MATCH   (f:File:Xml)-[:HAS_ROOT_ELEMENT]->(xmi:Xml:Element{name: "XMI"})
+                SET     f:XMI
+                SET     xmi:XMI:Root
+                RETURN  f AS File, xmi AS RootElement
+            ]]>
+        </cypher>
+    </concept>
+
+</jqassistant-rules>

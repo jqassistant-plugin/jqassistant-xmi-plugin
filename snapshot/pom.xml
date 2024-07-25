@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jqassistant.plugin</groupId>
+        <artifactId>parent</artifactId>
+        <version>2.3.0</version>
+    </parent>
+
+    <artifactId>jqassistant-xmi-plugin</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
+
+    <name>jQAssistant XMI Plugin</name>
+    <description>The jQAssistant plugin for importing UML diagrams, it provides a scanner for reading XMI files and rules for extracting models. The latter can be used to verify architectural concepts in a project.</description>
+    <url>https://github.com/jqassistant-plugin/jqassistant-xmi-plugin</url>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License, v3</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>dirk-mahler</id>
+            <name>Dirk Mahler</name>
+            <email>dirk.mahler@buschmais.com</email>
+        </developer>
+        <developer>
+            <id>stephan.pirnbaum</id>
+            <name>Stephan Pirnbaum</name>
+            <email>stephan.pirnbaum@buschmais.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/jqassistant-plugin/jqassistant-xmi-plugin.git</connection>
+        <developerConnection>scm:git:https://github.com/jqassistant-plugin/jqassistant-xmi-plugin.git
+        </developerConnection>
+        <url>https://github.com/jqassistant-plugin/jqassistant-xmi-plugin</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <com.buschmais.jqassistant.version>2.4.0-M3</com.buschmais.jqassistant.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.buschmais.jqassistant.core</groupId>
+            <artifactId>shared</artifactId>
+            <version>${com.buschmais.jqassistant.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.buschmais.jqassistant.core</groupId>
+            <artifactId>analysis</artifactId>
+            <version>${com.buschmais.jqassistant.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.buschmais.jqassistant.core</groupId>
+            <artifactId>report</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.buschmais.jqassistant.plugin</groupId>
+            <artifactId>common</artifactId>
+            <version>${com.buschmais.jqassistant.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.buschmais.jqassistant.plugin</groupId>
+            <artifactId>xml</artifactId>
+            <version>${com.buschmais.jqassistant.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- unit tests -->
+        <dependency>
+            <groupId>com.buschmais.jqassistant.core</groupId>
+            <artifactId>test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <!--profile>
+            <id>IT</id>
+            <properties>
+                <maven.invoker.localRepositoryPath>${project.build.directory}/example-repository</maven.invoker.localRepositoryPath>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-invoker-plugin</artifactId>
+                        <version>3.2.2</version>
+                        <configuration>
+                            <projectsDirectory>${project.basedir}/src/example</projectsDirectory>
+                            <cloneProjectsTo>${project.build.directory}/example</cloneProjectsTo>
+                            <localRepositoryPath>${maven.invoker.localRepositoryPath}</localRepositoryPath>
+                            <pomIncludes>*/pom.xml</pomIncludes>
+                            <settingsFile>src/example/settings.xml</settingsFile>
+                            <mergeUserSettings>true</mergeUserSettings>
+                            <streamLogs>true</streamLogs>
+                            <properties>
+                                <skipTests>true</skipTests>
+                                <jqassistant.version>${com.buschmais.jqassistant.version}</jqassistant.version>
+                                <jqassistant-xmi-plugin.version>${project.version}</jqassistant-xmi-plugin.version>
+                            </properties>
+                            <invokerPropertiesFile>.invoker/invoker.properties</invokerPropertiesFile>
+                            <postBuildHookScript>.invoker/verify</postBuildHookScript>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>example</id>
+                                <goals>
+                                    <goal>install</goal>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile-->
+    </profiles>
+</project>

@@ -1,0 +1,11 @@
+<jqassistant-plugin xmlns="http://schema.jqassistant.org/plugin/v2.2"
+                    id="jqa.plugin.xmi"
+                    name="jQAssistant XMI Plugin"
+                    version="${project.version}">
+    <description>The jQAssistant plugin for importing XMI models. It provides concepts building a xmi/uml model based on a previously scanned XML file.
+    </description>
+    <rules>
+        <resource>uml-default.xml</resource>
+        <resource>xmi-default.xml</resource>
+    </rules>
+</jqassistant-plugin>
