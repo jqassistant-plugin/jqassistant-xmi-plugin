@@ -43,7 +43,7 @@
     </scm>
 
     <properties>
-        <com.buschmais.jqassistant.version>2.4.0-RC1</com.buschmais.jqassistant.version>
+        <com.buschmais.jqassistant.version>2.5.0-RC2</com.buschmais.jqassistant.version>
     </properties>
 
     <dependencies>
