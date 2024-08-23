@@ -42,10 +42,6 @@
         <tag>HEAD</tag>
     </scm>
 
-    <properties>
-        <com.buschmais.jqassistant.version>2.4.0-RC1</com.buschmais.jqassistant.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
