@@ -11,7 +11,7 @@
     <version>3.0.0-SNAPSHOT</version>
 
     <name>jQAssistant XMI Plugin</name>
-    <description>The jQAssistant plugin for importing UML diagrams, it provides a scanner for reading XMI files and rules for extracting models. The latter can be used to verify architectural concepts in a project.</description>
+    <description>The jQAssistant plugin for importing UML diagrams to verify architectural concepts in a project. It provides a scanner for reading XMI files and rules for extracting models.</description>
     <url>https://github.com/jqassistant-plugin/jqassistant-xmi-plugin</url>
 
     <licenses>

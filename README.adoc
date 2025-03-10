@@ -2,7 +2,7 @@
 = jQAssistant XMI Plugin
 
 The http://jqassistant.org/[jQAssistant^] XMI Plugin provides scanners and rules for importing UML models, e.g. from XMI files.
-These models may be used by constraints to verify
+These models may be used by constraints to verify architectural concepts in a project.
 
 == Prerequisites
 
@@ -300,7 +300,7 @@ The plugin provides concepts for extracting UML models, e.g. for
 
 Furthermore a group `xmi:UML` is provided which allows easily applying all UML related concepts.
 
-The rules including their descriptions are defined in the file link:src/main/resources/META-INF/jqassistant-rules/xmi.xml[/META-INF/jqassistant-rules/xmi.xml^].
+The rules including their descriptions are defined in the file link:src/main/resources/META-INF/jqassistant-rules/uml-default.xml[/META-INF/jqassistant-rules/uml-default.xml^].
 
 [[feedback]]
 == Feedback
